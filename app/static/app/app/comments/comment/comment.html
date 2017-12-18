@@ -1,0 +1,41 @@
+<a id='gotocomment_{{_data.id}}' ></a>
+
+<table class="comment_main-table">
+  <tr>
+    <td rowspan="3" class="comment_avatar-cell">
+      <img *ngIf="_data.avatar !== null" class="comment_avatar"
+        [src]='_data.avatar' alt='{{ _data.author }}' />
+    </td>
+    <td class="comment_author">
+      <b>{{ _data.author }}</b>
+    </td>
+  </tr>
+  <tr>
+    <td class="comment_text" [innerHTML]="_data.text"></td>
+  </tr>
+  <tr>
+    <td class="comment_toolbar-cell">
+      <table class="comment_toolbar-table">
+        <tr>
+          <td class="comment_date">
+            {{ format_datetime(_data.dt) }}
+            <span *ngIf="_config.config().is_editor && _data.ip != null"> - [{{_data.ip}}]</span>
+            <a (click)="show_reply()">Ответить</a>
+          </td>
+          <td class="comment_toolbar-delete-edit">
+            <span *ngIf="delete_comments">
+              <a href="javascript:delete_comment({{_data.id}})">удалить комментарий</a>
+            </span>
+            <span *ngIf="_config.config().is_editor">
+               | <a href='writer/{{_data.id}}/'>редактировать</a>
+            </span>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+
+<div *ngIf="show_reply_block" class="comment_reply">
+  <reply [object-id]="_data.id"></reply>
+</div>

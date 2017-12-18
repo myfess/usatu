@@ -1,0 +1,83 @@
+<table style="width: 100%">
+  <tr>
+    <td class="" style="background-color: #f9f9f9;">
+      <table border="0" cellpadding="2" cellspacing="0">
+        <tr>
+          <td>
+            <select name="fcolor" class="ibcSelect" (change)="ubbFont($event.target)">
+              <option>Цвет</option>
+              <ng-template ngFor let-c [ngForOf]="font_colors">
+                <option [style.color]="c[0]" value="{{ c[0] }}">{{ c[1] }}</option>
+              </ng-template>
+            </select>
+
+            <select name="fcolor" class="ibcSelect" (change)="ubbFont($event.target)">
+              <option>Размер</option>
+              <ng-template ngFor let-s [ngForOf]="font_sizes">
+                <option [style.font-size]="s[0]" value="{{ s[0] }}">{{ s[1] }}</option>
+              </ng-template>
+            </select>
+
+            <select name="ffont" class="ibcSelect" (change)="ubbFont($event.target)">
+              <option>Шрифт</option>
+              <ng-template ngFor let-f [ngForOf]="font_fonts">
+                <option [style.font-family]="f[0]" value="{{ f[0] }}">{{ f[1] }}</option>
+              </ng-template>
+            </select>
+
+            <select name="quicklist" class="ibcSelect"
+              (change)="ubbList($event.target)">
+              <option>Список</option>
+              <ng-template ngFor let-l [ngForOf]="select_list">
+                <option value="{{ l[0] }}">{{ l[1] }}</option>
+              </ng-template>
+            </select>
+
+            <select name="talign" class="ibcSelect"
+              (change)="ubbAlign($event.target)">
+              <option>Выравнивание</option>
+              <ng-template ngFor let-a [ngForOf]="select_align">
+                <option value="{{ a[0] }}">{{ a[1] }}</option>
+              </ng-template>
+            </select>
+
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <ng-template ngFor let-b [ngForOf]="toolbar_buttons">
+              <a (click)="this[b[0]](b[1])"><img
+                  src="{{ 'usatu/picture/BBcode/' + b[3] }}" alt="{{ b[2] }}"
+                  width="23" height="22" border="0"  align="absmiddle" /></a>
+            </ng-template>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <table border=0>
+              <tr>
+                <ng-template ngFor let-s [ngForOf]="smiles">
+                  <td>
+                    <a (click)="emoticon(s[0])"><img src="usatu/picture/smile/{{ s[1] }}.gif" /></a>
+                  </td>
+                </ng-template>
+              </tr>
+            </table>
+          </td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+  <tr>
+    <td class="row1" valign="top">
+      <textarea
+        #textareamain
+        [(ngModel)]="message_text"
+        (ngModelChange)="textChanged($event)"
+        [disabled]="_disabled"
+        tabIndex=3 name="text" id="rte_form_text" rows="15" style="width:100%"
+      ></textarea>
+    </td>
+  </tr>
+</table>

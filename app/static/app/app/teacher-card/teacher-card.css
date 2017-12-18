@@ -1,0 +1,23 @@
+.teacher-card_table {
+  font-size: 80%;
+  width: 100%;
+}
+
+.teacher-card_input {
+  width: 100%;
+}
+
+.teacher-card_table tr{
+  background-color: #f2f0f1;
+}
+
+.teacher-card_table td{
+  padding: 5px;
+}
+
+.teacher-card_success {
+  font-size: 12px;
+  font-weight: bold;
+  color: #008000;
+  background-color: #ccffcc;
+}

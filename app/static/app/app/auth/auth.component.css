@@ -1,0 +1,71 @@
+.auth_error_msg {
+  color:red;
+  font-weight: bold;
+  font-size: 11px;
+  padding-top: 5px;
+}
+
+.auth_block {
+  border-collapse: collapse;
+  border: 1px solid #c1c1c1;
+  width: 190px;
+  max-width: 190px;
+  min-width: 190px;
+  padding: 10px;
+  background-color: #ffffff;
+  margin-bottom: 10px;
+  -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+  -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+  box-sizing: border-box;
+}
+
+.auth_form {
+  border-spacing: 2px;
+  border-collapse: separate;
+  border: 0px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.auth_pass_block {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  border-spacing: 0px;
+}
+
+.auth_form_td {
+  font-size: 80%;
+}
+
+.auth_sign_in {
+  font-size: 13px;
+  line-height: 17px;
+  color: black;
+  border-right: #bcbdc6 1px solid;
+  border-top: #bcbdc6 1px solid;
+  border-left: #bcbdc6 1px solid;
+  border-bottom: #bcbdc6 1px solid;
+  padding-right: 3px;
+  padding-left: 3px;
+  padding-bottom: 0px;
+  padding-top: 0px;
+}
+
+.auth_pass {
+  font-size: 13px;
+  width: 100%;
+}
+
+.auth_login {
+  font-size: 13px;
+  width: 100%;
+}
+
+.auth_pass_cell {
+  padding-right: 10px;
+}
+
+.auth_caption {
+  padding-bottom: 5px;
+}

@@ -1,0 +1,13 @@
+<pages [page-link]="page_link" [pages-count]="pages_count"></pages>
+
+<ng-template ngFor let-c [ngForOf]="comments">
+  <div class="comments_comment_block" [style.padding-left]="c.level * 20">
+    <comment [_data]="c"></comment>
+  </div>
+</ng-template>
+
+<pages [page-link]="page_link" [pages-count]="pages_count"></pages>
+
+<div class="comments_reply_block">
+  <reply [object-id]="object_id"></reply>
+</div>

@@ -1,0 +1,11 @@
+<div class="pages_main-block">
+  <ng-template ngFor let-item [ngForOf]="createRange(pages_count)" let-i="index + 1">
+
+    <span *ngIf="item == 0; else elseBlock">{{value}} ... </span>
+
+    <ng-template #elseBlock>
+      <span *ngIf="_config.config().comments_page == item" class="pages_selected-page">[{{item}}]</span>
+      <a *ngIf="_config.config().comments_page != item" href="{{page_link}}/{{item}}/">[{{item}}]</a>
+    </ng-template>
+  </ng-template>
+</div>

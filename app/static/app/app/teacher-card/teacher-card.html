@@ -1,0 +1,61 @@
+<font class="errorMessage" *ngIf="!show_form">{{success_top_msg}}</font>
+
+<table class="teacher-card_table" *ngIf="show_form">
+
+  <tr valign=middle>
+    <td style="vertical-align: top;">ФИО: </td>
+    <td>
+      <form [formGroup]="teacherForm" style="margin-bottom: 0px">
+        <input class="border teacher-card_input" type="text" id="name" formControlName="name" [(ngModel)]="name" />
+        <div *ngIf="formErrors.name" class="errorMessage" style="font-size: 12px; margin-top: 5px">
+          {{ formErrors.name }}
+        </div>
+      </form>
+    </td>
+  </tr>
+
+  <tr bgcolor=#f2f0f1 valign=top>
+    <td>Кафедра: </td>
+    <td style="width: 100%">
+      <chairs-struct full-name="true" [selected-chair]="chair_id"></chairs-struct>
+    </td>
+  </tr>
+  <tr valign=middle>
+    <td>Дисциплины:</td>
+    <td>
+      <input class="border teacher-card_input" type="text" [(ngModel)]="subject" />
+    </td>
+  </tr>
+  <tr valign=top>
+    <td>Информация:</td>
+    <td>
+      <textarea [(ngModel)]="information" rows=10 class="teacher-card_input"></textarea>
+    </td>
+  </tr>
+  <tr valign=top>
+    <td>
+      Фотографии:
+      <br />
+      <br />
+      <font class=MinHelpPhotos>Каждый URL фотографии<br>писать на отдельной строчке</font>
+    </td>
+    <td>
+      <textarea [(ngModel)]="photos" rows=5 class="teacher-card_input"></textarea>
+    </td>
+  </tr>
+  <tr valign=middle align=center>
+    <td colspan=2>
+      <button *ngIf="!loading" (click)="teacher_write()" md-raised-button
+        [disabled]="!teacherForm.valid"
+        >Сохранить</button>
+      <md-progress-spinner *ngIf="loading" [mode]="'indeterminate'"
+        style="width: 36px; height: 36px;">
+      </md-progress-spinner>
+
+      <font class="errorMessage" style="font-size: 12px"
+        *ngIf="error_msg!=null">{{error_msg}}</font>
+      <span class="teacher-card_success" style="margin-top: 20px; display: block;"
+        *ngIf="success_bot_msg!=null">{{success_bot_msg}}</span>
+    </td>
+  </tr>
+</table>

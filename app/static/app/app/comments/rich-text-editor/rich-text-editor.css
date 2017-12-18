@@ -1,0 +1,20 @@
+.rte_field-caption {
+  text-align: center;
+  font-size: 12.5px;
+  font-weight: bold;
+  background-color: #d1d7dc
+}
+
+.rte_preview {
+  width: 100%;
+  background-color: white;
+  border: 1px solid #c1c1c1;
+  border-spacing: 0px;
+  border-collapse: separate;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.rte_smile {
+  vertical-align: middle;
+}

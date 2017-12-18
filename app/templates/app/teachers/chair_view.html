@@ -1,0 +1,46 @@
+<font class=NavBread>
+<a href="">USATU.com</a> > <a href="teachers/">Преподаватели УГАТУ</a> > <b>{CHAIR_NAME}</b>
+</font>
+
+<br><br>
+
+<table border=0 cellspacing="0"  cellpadding="5" width=100%>
+ <tr>
+   <td class=TdSpaceWithBookmarks width=20>&nbsp;&nbsp;&nbsp;</td>
+   <td class=TdOpenWithBookmarks>&nbsp;&nbsp;Преподаватели&nbsp;УГАТУ&nbsp;&nbsp;</td>
+   <td class=TdSpaceWithBookmarks width=40>&nbsp;&nbsp;&nbsp;</td>
+   <td class=TdCloseWithBookmarks>&nbsp;&nbsp;<a href="teachers/edit/">Добавить&nbsp;преподавателя</a>&nbsp;&nbsp;</td>
+   <td class=TdSpaceWithBookmarks width=100%></td>
+ </tr>
+</table>
+
+<table class=TableWithBookmarks bgcolor=c1c1c1 cellSpacing=0 cellPadding=0 width='100%' border=0>
+  <tr>
+    <td valign=top bgColor=white>
+      <table cellSpacing=0 cellPadding=15><tr><td class=PageTitle>&raquo; {CHAIR_NAME}</td></tr></table>
+      <table cellSpacing=0 cellPadding=0 width=100%>
+        <tr>
+          <td class=ChairTeachers>
+
+            <tpl:teachers>
+            <tpl:link_teacher>
+              <a href="teachers/{TEACHER_ID}/">{TEACHER_NAME}</A>
+
+              <tpl:new_comment_{TEACHER_ID}>
+                <font color=red><b>new</b></font>
+              </tpl:new_comment_{TEACHER_ID}>
+
+              <tpl:is_editor>
+                <a href='teachers/edit/{TEACHER_ID}'><b>Р</b></a>
+              </tpl:is_editor>
+
+              <br>
+            </tpl:link_teacher>
+
+            <br>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>

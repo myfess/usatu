@@ -1,0 +1,9 @@
+.pages_main-block {
+  text-align: center;
+  font-size: 12.5px;
+  padding-top: 8px;
+}
+
+.pages_selected-page {
+  font-weight: bold;
+}

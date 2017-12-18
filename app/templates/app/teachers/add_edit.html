@@ -1,0 +1,36 @@
+<script>
+  System.import('{USATU_PATH}/app/teacher-card/teacher-card')
+    .catch(function (err) {console.error(err);});
+</script>
+
+<font class=NavBread>
+<a href="">USATU.com</a> > <a href="teachers/">Преподаватели УГАТУ</a> > <b>Добавить преподавателя</b><br><br>
+</font>
+
+<table border=0 cellspacing="0"  cellpadding="5" width=100%>
+ <tr>
+   <td class=TdSpaceWithBookmarks width=20>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+   <td class=TdCloseWithBookmarks>&nbsp;&nbsp;<a href="teachers/">Преподаватели&nbsp;УГАТУ</a>&nbsp;&nbsp;</td>
+   <td class=TdSpaceWithBookmarks width=40>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+   <td class=TdOpenWithBookmarks>&nbsp;&nbsp;Добавить&nbsp;преподавателя&nbsp;&nbsp;</td>
+   <td class=TdSpaceWithBookmarks width=100%>&nbsp;</td>
+ </tr>
+</table>
+
+<table class=TableWithBookmarks bgcolor=c1c1c1 cellSpacing=0 cellPadding=0 width='100%' border=0>
+  <tr>
+    <td valign=top bgColor=white>
+      <table cellSpacing=0 cellPadding=15>
+        <tr><td class=PageTitle>&raquo; Добавить преподавателя</td></tr>
+      </table>
+      <table cellSpacing=0 cellPadding=0 width=100%>
+        <tr>
+          <td class=PageContent>
+            <teacher-card></teacher-card>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+

@@ -1,0 +1,23 @@
+<script>
+  System.import('{{ USATU_PATH }}/app/teachers').catch(function (err) {console.error(err);});
+</script>
+
+<table style="margin-top: 65px; font-size: 80%" bgcolor=#c1c1c1 border=0 width="190" cellSpacing=1 cellPadding="10">
+  <tr>
+    <td valign=top bgcolor=#ffffff>
+      <span style="color: #637388; font-weight: bold">Быстрый переход</span>
+      <div style="margin-top: 10px">
+        <teachers-index></teachers-index>
+      </div>
+
+      <br />
+      <br />
+
+      <span style="color: #637388; font-weight: bold">Кафедры</span>
+      <div style="margin-top: 10px">
+        <chairs-struct></chairs-struct>
+      </div>
+
+    </td>
+  </tr>
+</table>

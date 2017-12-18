@@ -1,0 +1,32 @@
+<div id='tree_0' class='chairs_start_block'>
+  <ng-template ngFor let-p [ngForOf]="chairs" let-i="index">
+    <a  (click)="chair_click_tree($event, p.id)" class='chairs_href' title="{{p.name}}">
+      <img id='pic_{{p.id}}'
+
+        [src]="'usatu/picture/tree/' + ((p.id==selected_faculty&&full_name) ? 'min.gif' : 'plu.gif')"
+        />{{p.short_name}}
+    </a>
+    <div id='tree_{{p.id}}' class='chairs_inner_block' [hidden]="p.id!=selected_faculty||!full_name">
+      <ng-template ngFor let-c [ngForOf]="p.chairs">
+        <div class="chairs_chairs_block">
+          <div style="float: left;" *ngIf="full_name">
+            <input class="noborder" type="radio"
+              name="teacher_chair"
+              [checked]="selected_chair==c.id"
+              value="{{c.id}}" />
+          </div>
+          <div
+            [ngClass]="{'chairs_first-short': full_name}"
+            [style.font-weight]="full_name ? 'bold' : 'normal'"
+            >
+            <a href='teachers/chair/{{c.id}}/' title='{{c.name}}' class='chairs_href2'>{{c.short_name}}</a>
+          </div>
+          <a
+            href='teachers/chair/{{c.id}}/' title='{{c.name}}' class='chairs_href2' *ngIf="full_name">
+            <div class="chairs_second-full"> - {{c.name}}</div>
+          </a>
+        </div>
+      </ng-template>
+    </div>
+  </ng-template>
+</div>

@@ -1,0 +1,108 @@
+{% if unentered_user  %}
+  <script>
+    System.import('{{ USATU_PATH }}/app/auth').catch(function (err) {console.error(err);});
+  </script>
+
+  <auth></auth>
+{% endif %}
+
+
+<table style="width: 190px; background-color: white; border: 1px solid #c1c1c1;
+  border-spacing: 0px; border-collapse: separate; padding: 5px;">
+  <tr>
+    <td valign=top align=left bgcolor=#ffffff>
+
+      <tpl:editor>
+        <table class="left_menu_table" width="100%" style="margin-bottom: 15px">
+          <tr class=tab1cap1>
+            <td width=16></td>
+            <td>
+              <a href="mod/news/">модерирование</a>
+            </td>
+          </tr>
+        </table>
+
+      </tpl:editor>
+
+      <table class="left_menu_table" width="100%">
+        <tr class=tab1cap1>
+          <td align=right>
+            <img src="/static/app/picture/main/teachers_s.gif" border =0 alt="преподаватели УГАТУ">
+          </td>
+          <td width=100%><a href="teachers/">Преподаватели УГАТУ</a></td>
+        </tr>
+
+        <tr class=tab1cap1>
+          <td align=right valign=top>
+            <img src="/static/app/picture/main/files_s.gif" border =0 alt="файлы для учёбы">
+          </td>
+          <td width=100%><a href="files_for_edu/">Файлы&nbsp;для&nbsp;учёбы</a>
+          </td>
+        </tr>
+
+        <tr class=tab1cap1>
+          <td align=right>
+            <img src="/static/app/picture/main/forum_s.gif" border =0 alt="Форум">
+          </td>
+          <td width=100% valign=center><a href="board/">Форум</a></td>
+        </tr>
+
+        <!--
+        <tr class=tab1cap1>
+          <td align=right>
+            <img src="/static/app/picture/main/photos_s.gif" border =0 alt="Фотогалерея">
+          </td>
+          <td width=100%><a href="photos/">Фотогалерея</a></td></tr>
+        -->
+        <tr class=tab1cap1>
+          <td align=right>
+            <img src="/static/app/picture/main/meet_s.gif" border =0 alt="Знакомства">
+          </td>
+          <td class=cap1sub1 width=100%><a href="meet/">Знакомства</a></td>
+        </tr>
+        <!--
+        <tr class=tab1cap1>
+          <td align=right >
+            <img src="/static/app/picture/main/images_s.gif" border =0 alt="Картинки">
+          </td>
+          <td class=cap1sub1 width=100%><a href="images/">Картинки</a></td>
+        </tr>
+        -->
+      </table>
+
+      <table class="left_menu_table" width="100%" style="margin-bottom: 5px; margin-top: 15px">
+        <tr class=tab1cap1>
+          <td width=16></td>
+          <td><a href="inf/">Информация о сайте</a></td>
+        </tr>
+        <tr class=tab1cap1>
+          <td width=16></td>
+          <td><a href="links/">Ссылки</a></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+
+<br />
+<center>
+<!--
+<iframe frameborder="0" allowtransparency="true" scrolling="no" src="https://money.yandex.ru/quickpay/button-widget?account=410012251394123&quickpay=small&yamoney-payment-type=on&button-text=01&button-size=s&button-color=white&targets=%D0%9F%D0%BE%D0%B4%D0%B4%D0%B5%D1%80%D0%B6%D0%B0%D1%82%D1%8C+%D1%80%D0%B0%D0%B7%D0%B2%D0%B8%D1%82%D0%B8%D0%B5+%D1%81%D0%B0%D0%B9%D1%82%D0%B0+USATU.com&default-sum=100&successURL=" width="134" height="25"></iframe>
+-->
+</center>
+
+{% if ADS  %}
+  <center>{ADS_1}</center><br />
+{% endif %}
+
+{% if ADS  %}
+  {ADS_3}
+{% endif %}
+
+{% if SAPE  %}
+  {SAPE}<br />
+{% endif %}
+
+{% if ADS  %}
+  <center>{ADS_2}</center>
+{% endif %}

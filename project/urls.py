@@ -3,7 +3,7 @@ from django.conf.urls import include, url
 from django.contrib import admin
 
 from welcome.views import index, health
-from app.train import train_page
+from app.train import train_page, add_words, teachers_list
 
 urlpatterns = [
     # Examples:
@@ -12,6 +12,8 @@ urlpatterns = [
 
     url(r'^$', index),
     url(r'^train$', train_page),
+    url(r'^test$', add_words), 
+    url(r'^teachers/?$', teachers_list),     
     url(r'^health$', health),
     url(r'^admin/', include(admin.site.urls)),
 ]

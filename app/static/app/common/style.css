@@ -1,0 +1,229 @@
+input.border {
+  border-right: #9ca2ad 1px solid;
+  border-top: #9ca2ad 1px solid;
+  border-left: #9ca2ad 1px solid;
+  border-bottom: #9ca2ad 1px solid
+}
+
+td.cap1 {
+  text-align: center;
+  font-weight: bold;
+  color: #637388;
+  font-size: 80%;
+  padding-right: 0px;
+  padding-left: 0px;
+  padding-bottom: 0px;
+  padding-top: 0px
+}
+
+BODY {
+  FONT-FAMILY: Verdana, Tahoma, Arial;
+  SCROLLBAR-FACE-COLOR: #8e95a5;
+  MARGIN: 0pt;
+  SCROLLBAR-SHADOW-COLOR: #c0c0c0;
+  SCROLLBAR-ARROW-COLOR: #ffffff;
+  SCROLLBAR-TRACK-COLOR: #f1f0f0;
+  SCROLLBAR-BASE-COLOR: #ffffff;
+  color: #000000
+}
+
+TD {FONT-FAMILY: Verdana, Tahoma, Arial}
+.minibutton {BORDER-RIGHT: #9ca2ad 1px solid; BORDER-TOP: #9ca2ad 1px solid; BACKGROUND: #eeeeee; FONT: Verdana, Arial, Helvetica, sans-serif; TEXT-TRANSFORM: none; BORDER-LEFT: #9ca2ad 1px solid; COLOR: #666666; BORDER-BOTTOM: #9ca2ad 1px solid; HEIGHT: 18px}
+
+.needreg {FONT-SIZE: 80%;}
+.divnorm {FONT-SIZE: 80%;}
+
+hr {background : #c1c1c1; border-top:1px solid #c1c1c1; color : #c1c1c1; height : 0px}
+
+td.row1 {BACKGROUND-COLOR: #efefef}
+td.row2 {BACKGROUND-COLOR: #dee3e7}
+td.row3 {BACKGROUND-COLOR: #d1d7dc}
+
+th {FONT-WEIGHT: bold; FONT-SIZE: 70%; COLOR: #ffa34f; HEIGHT: 25px; BACKGROUND-COLOR: #006699}
+
+.errorMessage {FONT-SIZE: 80%; FONT-WEIGHT: bold; COLOR: red; FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif; BACKGROUND-COLOR: #fae0e0}
+.forumUserInfo {COLOR: #666666; FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif;}
+.MinHelpPhotos {FONT-SIZE: 70%; FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif;}
+.MinHelp {FONT-SIZE: 70%; FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif;}
+.WtiteNews {FONT-SIZE: 75%;}
+.MeetTitle {FONT-WEIGHT: bold; COLOR: #637388; FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif}
+.HelpText {FONT-SIZE: 60%}
+
+.f {BORDER-RIGHT: #bcbdc6 1px solid; PADDING-RIGHT: 3px; BORDER-TOP: #bcbdc6 1px solid; PADDING-LEFT: 3px;  PADDING-BOTTOM: 0px; BORDER-LEFT: #bcbdc6 1px solid; COLOR: black; PADDING-TOP: 0px; BORDER-BOTTOM: #bcbdc6 1px solid; FONT-FAMILY: Verdana}
+
+input {MARGIN-TOP: 2px; MARGIN-BOTTOM: 2px; TEXT-INDENT: 2px}
+
+
+input.readonly {BORDER-RIGHT: #9ca2ad 1px solid; BORDER-TOP: #9ca2ad 1px solid; BORDER-LEFT: #9ca2ad 1px solid; BORDER-BOTTOM: #9ca2ad 1px solid; BACKGROUND: #bbbbbb; COLOR: #ff0000;}
+
+.noborder {BORDER-RIGHT: #9ca2ad 0px solid; BORDER-TOP: #9ca2ad 0px solid; BORDER-LEFT: #9ca2ad 0px solid; BORDER-BOTTOM: #9ca2ad 0px solid}
+input {FONT: Verdana, Arial, Helvetica, sans-serif; COLOR: #000000;}
+input.input {BACKGROUND: #ffffff;}
+select {MARGIN-TOP: 2px; MARGIN-BOTTOM: 2px; TEXT-INDENT: 2px}
+
+input.radio {BORDER-BOTTOM-WIDTH: 1px; BORDER-TOP-WIDTH: 0px; BORDER-LEFT-WIDTH: 0px; MARGIN-TOP: 0px; MARGIN-BOTTOM: 0px;}
+input.catbutton {BACKGROUND: #fafafa; COLOR: #000000}
+input.liteoption {BACKGROUND: #fafafa; COLOR: #000000}
+input.mainoption {FONT-WEIGHT: bold; BACKGROUND: #fafafa; COLOR: #000000}
+input.post {BACKGROUND: #ffffff; COLOR: #000000}
+input.button {BACKGROUND: #efefef; COLOR: #000000}
+
+TR.tab1cap1 {FONT-SIZE: 75%}
+TD.Files {FONT-SIZE: 80%}
+TR.Teachers {FONT-SIZE: x-small}
+
+TR.TextInFastPreview {text-align: justify; FONT-SIZE: 75%}
+TR.Folders {FONT-SIZE: 80%}
+TR.WriteForm {FONT-SIZE: 80%}
+TR.CommentActions {FONT-SIZE: 75%}
+
+TD.cap2 {font-weight: bold; COLOR: #637388; FONT-SIZE: 80%; PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; PADDING-TOP: 0px}
+
+.left_menu_table {
+  margin-top: 5px;
+}
+.left_menu_table td {
+  padding-top: 3px;
+  padding-bottom: 3px;
+  padding-left: 7px;
+  margin-top: 5px;
+}
+
+
+TD.TdHeader {FONT-SIZE: 75%}
+TD.HeaderHello {COLOR: #FFFFFF; FONT-SIZE: 75%}
+TD.HeaderHello a {COLOR: #FFFFFF}
+TD.MessageSubject {FONT-SIZE: 80%; PADDING-RIGHT: 10px; PADDING-LEFT: 10px; PADDING-BOTTOM: 0px; PADDING-TOP: 5px}
+TD.MessageText {FONT-SIZE: 75%; PADDING-RIGHT: 10px; PADDING-LEFT: 10px; PADDING-BOTTOM: 5px; PADDING-TOP: 5px}
+TD.FormRegistration {FONT-SIZE: 80%}
+TD.PageTitle {FONT-WEIGHT: bold; COLOR: #637388; FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif}
+TD.PageContent {PADDING-RIGHT: 15px; PADDING-LEFT: 15px; PADDING-BOTTOM: 15px; PADDING-TOP: 0px}
+TD.SelectFolder {FONT-SIZE: 80%}
+TD.ChooseAll {FONT-SIZE: 80%}
+TD.Copy {FONT-SIZE: 80%; COLOR: white}
+TD.NavActions {FONT-SIZE: 80%; COLOR: white}
+TD.Teachers {FONT-SIZE: 80%}
+TD.ChairStruct {FONT-SIZE: 80%}
+TD.TeacherInfo {FONT-SIZE: 80%}
+TD.TextContent {FONT-SIZE: 80%}
+TD.TeacherTextContent {FONT-WEIGHT: bold; FONT-SIZE: 80%}
+TD.ChairTeachers { FONT-SIZE: 80%; PADDING-LEFT: 20px}
+TD.TdHelp { FONT-SIZE: 60%}
+
+TABLE.Chat {FONT-SIZE: 80%}
+
+TABLE.TableAddTeacher {FONT-SIZE: 80%}
+TABLE.MeetFind {FONT-SIZE: 80%}
+TABLE.MeetPeople {FONT-SIZE: 80%}
+TABLE.Photos {FONT-SIZE: 80%}
+TABLE.AddPhoto {FONT-SIZE: 80%}
+TABLE.FileSubject {FONT-SIZE: 80%}
+TABLE.ImageProperties {FONT-SIZE: 80%}
+TABLE.Meet {FONT-SIZE: 80%}
+
+.title2 {FONT-SIZE: 90%; FONT-WEIGHT: bold; COLOR: #637388; FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif}
+.title3 {FONT-SIZE: 80%; FONT-WEIGHT: bold; COLOR: #637388; FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif}
+.Comments {FONT-SIZE: 80%; FONT-WEIGHT: bold}
+.MustRegisration {FONT-SIZE: 80%}
+.Error404 {FONT-SIZE: 80%}
+.FilesTitle {COLOR: #637388; FONT-WEIGHT: bold}
+.TextForPages {FONT-SIZE: 80%}
+.PhotoComment {FONT-SIZE: 80%; COLOR: #415166;}
+
+.CommentDate {FONT-SIZE: 80%}
+.CommentAuthor {FONT-SIZE: 80%}
+.CommentText {FONT-SIZE: 80%}
+.CommentDelete {FONT-SIZE: 80%}
+
+.FilmTitle {FONT-SIZE: 80%}
+.FilmRec {FONT-SIZE: 80%}
+.FilmsDay {FONT-SIZE: 80%}
+
+.AddComment {FONT-SIZE: 80%}
+
+.test1 {FONT-SIZE: x-small}
+
+a {CURSOR: hand; BACKGROUND: none transparent scroll repeat 0% 0%; COLOR: #9B5C20; TEXT-DECORATION: none}
+a:active {CURSOR: hand}
+a:hover {CURSOR: hand; TEXT-DECORATION: underline}
+a.lj {CURSOR: hand; BACKGROUND: none transparent scroll repeat 0% 0%; COLOR: #000066; TEXT-DECORATION: none}
+a.lj:hover {CURSOR: hand; TEXT-DECORATION: underline}
+a.white {CURSOR: hand; BACKGROUND: none transparent scroll repeat 0% 0%; COLOR: white; TEXT-DECORATION: none}
+a.white:active {CURSOR: hand; COLOR: white; TEXT-DECORATION: none}
+a.white:hover {COLOR: #f2f0f1; CURSOR: hand; TEXT-DECORATION: none}
+
+a.FessDesign {CURSOR: hand; BACKGROUND: none transparent scroll repeat 0% 0%; COLOR: white; TEXT-DECORATION: none}
+a.FessDesign:active {CURSOR: hand; COLOR: white; TEXT-DECORATION: none}
+a.FessDesign:hover {COLOR: #f2f0f1; CURSOR: hand; TEXT-DECORATION: underline}
+
+a.Files:active {TEXT-DECORATION: underline}
+a.Files:visited  {COLOR: #990000}
+
+a.AInFastPreview {FONT-WEIGHT: bold; FONT-SIZE: 80%}
+.NavBread {FONT-SIZE: 80%}
+.PageSelect {FONT-SIZE: 80%}
+.SendComment {FONT-SIZE: 80%}
+.SendError {FONT-SIZE: 80%}
+
+TABLE.TableWithBookmarks {BORDER-RIGHT: #c1c1c1 1px solid; BORDER-TOP: 0px solid; BORDER-LEFT: #c1c1c1 1px solid; BORDER-BOTTOM: #c1c1c1 1px solid;}
+TD.TdSpaceWithBookmarks {BORDER-BOTTOM: #c1c1c1 1px solid;}
+TD.TdOpenWithBookmarks {BACKGROUND-COLOR: white; BORDER-RIGHT: #c1c1c1 1px solid; BORDER-TOP: #c1c1c1 1px solid; BORDER-LEFT: #c1c1c1 1px solid; FONT-WEIGHT: bold; COLOR: #637388; FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif}
+TD.TdCloseWithBookmarks {BACKGROUND-COLOR: #e3e3e3; BORDER-RIGHT: #c1c1c1 1px solid; BORDER-TOP: #c1c1c1 1px solid; BORDER-LEFT: #c1c1c1 1px solid; BORDER-BOTTOM: #c1c1c1 1px solid;}
+
+.teachers_list {
+  -webkit-column-width: 250px;
+  -moz-column-width: 250px;
+  column-width: 250px;
+  font-size: 12.5px;
+}
+
+.rte_smile {
+  vertical-align: middle;
+}
+
+.main_content_block {
+  border-collapse: collapse;
+  border: 1px solid #c1c1c1;
+  width: 560px;
+  max-width: 560px;
+  min-width: 560px;
+  padding: 10px;
+  background-color: #ffffff;
+  margin-bottom: 10px;
+  -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+  -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+  box-sizing: border-box;
+}
+
+.right_menu_content_block {
+  margin-top: 30px;
+  border-collapse: collapse;
+  border: 1px solid #c1c1c1;
+  width: 190px;
+  max-width: 190px;
+  min-width: 190px;
+  padding: 10px;
+  background-color: #ffffff;
+  margin-bottom: 10px;
+  -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+  -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+  box-sizing: border-box;
+}
+
+.board_theme_title {
+  margin-top: 10px;
+  background: #8e95a5;
+  font-weight: bold;
+  color: white;
+  padding: 10px;
+}
+
+.quote_table {
+  padding: 5px;
+  margin-top: 5px;
+  font-size: 13px;
+  background-color: #F8F8F7;
+  border: 1px solid #9ca2ad;
+  border-spacing: 0px;
+  border-collapse: separate;
+}

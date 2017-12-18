@@ -1,0 +1,48 @@
+<div class="auth_block">
+  <table class="auth_form">
+    <tr><td class="cap1 auth_caption">Пользователь</td></tr>
+    <tr>
+      <td class="auth_form_td">
+        логин | <a href="forum/index.php?act=Reg&CODE=00">регистрация</a>
+      </td>
+      <tr>
+    <tr>
+      <td>
+        <input type="text" tabindex="1" class="auth_login border"
+          [(ngModel)]="login"
+          [disabled]="loading"
+          />
+      </td>
+    </tr>
+    <tr>
+      <td class="auth_form_td">
+        пароль | <a href="forum/index.php?act=Reg&CODE=10">забыли?</a>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <table class="auth_pass_block">
+          <tr>
+            <td class="auth_pass_cell">
+              <input class="auth_pass border" tabindex="2" type="password"
+                [(ngModel)]="pass"
+                (keyup.enter)="sign_in()"
+                [disabled]="loading"
+              />
+            </td>
+            <td>
+              <input class="auth_sign_in" type="button" value="вход"
+                (click)="sign_in()"
+                *ngIf="!loading"
+                >
+              <img src="usatu/picture/loading.gif" *ngIf="loading" />
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+  <div class="auth_error_msg" *ngIf="auth_msg=='LOGIN_ERROR'">Пустой логин</div>
+  <div class="auth_error_msg" *ngIf="auth_msg=='PASSWORD_ERROR'">Пустой пароль</div>
+  <div class="auth_error_msg" *ngIf="is_backend_msg()">{{auth_msg}}</div>
+</div>

@@ -10,7 +10,7 @@ class MyDB2:
    def __init__(self):
       self.cursor = connections['default'].cursor()
       
-   def query(self, sql, no_result=False):
+   def SqlQuery(self, sql, no_result=False):
       try:
          if len(sql) == 0:
             return list()

@@ -1,0 +1,67 @@
+{% extends "app/layout.html" %}
+
+{% block content %}
+
+<script language=JavaScript>
+  function goto(ch)
+  {
+    document.all['char_' + ch].scrollIntoView(true);
+  }
+</script>
+
+<font class=NavBread>
+<a href="">USATU.com</a> > <b>Преподаватели УГАТУ</b>
+</font>
+<br><br>
+
+<table border=0 cellspacing="0"  cellpadding="5" width=100%>
+ <tr>
+   <td class=TdSpaceWithBookmarks width=20>&nbsp;&nbsp;&nbsp;</td>
+   <td class=TdOpenWithBookmarks>&nbsp;&nbsp;Преподаватели&nbsp;УГАТУ&nbsp;&nbsp;</td>
+   <td class=TdSpaceWithBookmarks width=40>&nbsp;&nbsp;&nbsp;</td>
+   <td class=TdCloseWithBookmarks>&nbsp;&nbsp;<a href="teachers/edit/">Добавить&nbsp;преподавателя</a>&nbsp;&nbsp;</td>
+   <td class=TdSpaceWithBookmarks width=100%></td>
+ </tr>
+</table>
+
+<table class=TableWithBookmarks bgcolor=c1c1c1 cellSpacing=0 cellPadding=0 width='100%' border=0>
+  <tr>
+    <td valign=top bgColor=white>
+    <br>
+      <table cellSpacing=0 cellPadding=0 width=100%>
+        <tr>
+          <td class=PageContent>
+            <table cellSpacing=0 cellPadding=0 width=100%><tr><td>
+              {% if ADS  %}
+                 {ADVERTISMENT}
+  		        {% endif %}
+            </td></tr></table>
+            <table cellSpacing=0 cellPadding=0 width=100%>
+              <tr>
+                <td valign=top class=Teachers>
+                  <div class='teachers_list'>
+                     {% for c in chars %}
+                        <a id='char_123'>
+                           <h3><b>{{ c.char }}</b></h3>
+                        </a>
+
+                        {% for t in c.ts %}
+                          <a href='teachers/{{ t.id }}/'>{{ t.name }}</a><br />
+                        {% endfor %}
+                     {% endfor %}
+                  </div>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+
+{% endblock %}
+
+{% block content_right_menu %}
+{% include "app/teachers/menu.html" %}   
+{% endblock %}
