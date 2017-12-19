@@ -1,0 +1,12 @@
+
+ADS = False
+SAPE = False
+JIVOSITE = False
+REFORMAL = False
+COUNTERS = False
+TYPESCRIPT = True
+ES5 = False
+USATU_PATH = 'static/app'
+PRODUCTION = False
+CAPTCHA = False
+CAPTCHA_PUBLIC = '6LdT8yQUAAAAAB6JhSIKamgccowQt3B2_vI1y2_f'
