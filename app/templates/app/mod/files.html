@@ -1,0 +1,72 @@
+<font class=NavBread>
+<a href="">USATU.com</a> > <b>Модерирование</b> > <b>Файлы</b><br><br>
+</font>
+
+
+<table border=0 cellspacing="0"  cellpadding="5" width=100%>
+ <tr>
+   <td class=TdSpaceWithBookmarks width=20>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+   <td class=TdCloseWithBookmarks>&nbsp;&nbsp;<a href="mod/news/">Новости</a>&nbsp;&nbsp;</td>
+   <td class=TdSpaceWithBookmarks width=40>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+   <td class=TdCloseWithBookmarks>&nbsp;&nbsp;<a href="mod/comments/">Комментарии</a>&nbsp;&nbsp;</td>
+   <td class=TdSpaceWithBookmarks width=40>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+   <td class=TdCloseWithBookmarks>&nbsp;&nbsp;<a href="mod/teachers/">Преподы</a>&nbsp;&nbsp;</td>
+   <td class=TdSpaceWithBookmarks width=40>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+   <td class=TdOpenWithBookmarks>&nbsp;&nbsp;Файлы&nbsp;&nbsp;</td>
+   <td class=TdSpaceWithBookmarks width=40>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+   <td class=TdCloseWithBookmarks>&nbsp;&nbsp;<a href="mod/photos/">Фотки</a>&nbsp;&nbsp;</td>
+   <td class=TdSpaceWithBookmarks width=40>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+   <td class=TdCloseWithBookmarks>&nbsp;&nbsp;<a href="mod/meet/">Знакомства</a>&nbsp;&nbsp;</td>
+
+   <td class=TdSpaceWithBookmarks width=100%>&nbsp;</td>
+ </tr>
+</table>
+
+
+<table class=TableWithBookmarks  bgcolor=c1c1c1 cellSpacing=0 cellPadding=0 width='100%' border=0>
+  <tr>
+    <td valign=top bgColor=white>
+      <table cellSpacing=0 cellPadding=0 width=100%>
+        <tr>
+          <td class=PageContent>
+
+          <br><font class=title2>Добавленные файлы:</font><br>
+
+          <tpl:files>
+          <tpl:file>
+            <br>
+
+            <table bgcolor=c1c1c1 cellSpacing=1 cellPadding=0 width='100%' border=0>
+              <tr>
+                <td>
+                  <table bgcolor=white width="100%">
+                    <tr>
+                      <td>
+                        <a href="mod/files_for_edu/edit/{FILE_ID}/">редактировать</a> | <a href="mod/files_for_edu/release/{FILE_ID}">разрешить</a> | <a href="mod/files_for_edu/delete/{FILE_ID}">удалить</a>
+                        <br>
+                        <hr>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <b>Описание:</b> <a href="{DOCS_PATH_URL}{FILE_NAME}" target=_blank>{FILE_DESCRIPTION}</a><br>
+                        <b>Предмет:</b> {FILE_SUBJECT}<br>
+                        <b>Тип:</b> {FILE_TYPE}<br>
+                        <b>Размер:</b> {FILE_SIZE} Кб<br>
+                        <b>Время:</b> {FILE_TIME}<br>
+                        <b>Автор:</b> {FILE_AUTHOR}<br>
+                        <b>Добавил:</b> {FILE_ADDED}<br>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+            </table>
+          </tpl:file>
+
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>

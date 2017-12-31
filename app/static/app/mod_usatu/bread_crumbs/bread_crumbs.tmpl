@@ -1,0 +1,15 @@
+<div>
+  <div style="font-size: 12px; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;">
+    <ws:for data="rec in crumbs">
+      <ws:if data="{{rec["last"] === true}}">
+        <b>{{ rec["text"] }}</b>
+      </ws:if>
+      <ws:else>
+        <a href="{{ rec["link"] }}">
+        {{ rec["text"] }}
+        </a>
+        >
+      </ws:else>
+    </ws:for
+  </div>
+</div>

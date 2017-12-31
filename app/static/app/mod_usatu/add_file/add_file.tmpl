@@ -1,0 +1,142 @@
+<div>
+  <table cellSpacing=0 cellPadding=0 width=100%>
+    <tr>
+      <td class="PageContent">
+        <form
+          id="form_file"
+          enctype="multipart/form-data"
+          action="files_for_edu/add_file/"
+          method=POST
+          >
+
+          <font class="errorMessage">
+            <ws:if data="{{ settings.upload_result.was_upload === false }}">
+              Вы не выбрали файл<br />
+            </ws:if>
+
+            <ws:if data="{{ settings.upload_result.was_bad_ext }}">
+              Файл должен быть расширения: zip или rar<br />
+            </ws:if>
+
+            <ws:if data="{{ settings.upload_result.was_add_mod }}">
+              Спасибо. Ваш файл будет добавлен после проверки модератора<br />
+            </ws:if>
+
+            <ws:if data="{{ settings.upload_result.was_add_mod === false && settings.upload_result.was_add === false}}">
+              Файл не был добавлен<br />
+            </ws:if>
+
+            <ws:if data="{{ settings.upload_result.was_add }}">
+              Файл был добавлен<br />
+            </ws:if>
+
+            <ws:if data="{{ settings.upload_result.no_subject }}">
+              Вы не указали дисциплину файла<br />
+            </ws:if>
+
+            <ws:if data="{{ settings.upload_result.no_type }}">
+              Вы не указали тип файла<br />
+            </ws:if>
+          </font>
+
+          <table cellSpacing=0 cellPadding=0 width=100% border=0>
+            <tr>
+              <td class=TdHelp>
+                Загружать можно только файлы с расширением ".zip", ".rar".<br><br>
+              </td>
+            </tr>
+          </table>
+
+          <table border=0 class=TableAddFile cellSpacing=0 width=100%>
+            <tr>
+              <td valign=middle>файл:</td>
+              <td colspan=2>
+                <input class=border name="upload" type="file" style='width:100%' />
+              </td>
+            </tr>
+            <tr>
+              <td style="padding-right: 8px;">дисциплина:</td>
+              <td>
+
+                <component data-component="mod_usatu/my_drop_down/my_drop_down">
+                  <opt name="name" value="fd_subject" />
+                  <opt name="className" value="fd_subject" />
+                  <opt name="method_name" value="list" />
+                  <opt name="key_value" value="subject" />
+                  <opt name="init_value" value="{{ settings.subject_id }}" />
+                  <options name="params">
+                    <option name="Фильтр" value="null"></option>
+                  </options>
+                </component>
+
+              </td>
+              <td align=right>
+                <ws:SBIS3.CORE.FieldText
+                  name="ft_subject"
+                  class="ft_subject"
+                  tooltip="введите название дисциплины"
+                  visible="{{ 'ctx_show_subject'|bind:false }}"
+                  tooltipInside="{{ true }}"
+                  value="{{ settings.subject_text }}"
+                />
+              </td>
+            </tr>
+            <tr>
+              <td>описание:</td>
+              <td colspan=2>
+                <ws:SBIS3.CORE.FieldText
+                  name="ft_description"
+                  class="ft_description"
+                  value="{{ settings.description }}"
+                />
+              </td>
+            </tr>
+            <tr>
+              <td>тип:</td>
+              <td>
+
+                <component data-component="mod_usatu/my_drop_down/my_drop_down">
+                  <opt name="name" value="fd_type" />
+                  <opt name="className" value="fd_subject" />
+                  <opt name="method_name" value="types_list" />
+                  <opt name="key_value" value="type" />
+                  <opt name="init_value" value="{{ settings.type_id }}" />
+                </component>
+
+              </td>
+              <td align=right>
+                <ws:SBIS3.CORE.FieldText
+                  name="ft_type"
+                  class="ft_subject"
+                  tooltip="введите тип файла"
+                  tooltipInside="{{ true }}"
+                  visible="{{ 'ctx_show_type'|bind:false }}"
+                  value="{{ settings.type_text }}"
+                />
+              </td>
+            </tr>
+            <tr>
+              <td>автор:</td>
+              <td colspan=2>
+                <ws:SBIS3.CORE.FieldText
+                  name="ft_author"
+                  class="ft_description"
+                  value="{{ settings.author }}"
+                />
+              </td>
+            </tr>
+          </table>
+
+          <ws:SBIS3.CORE.Button
+            name="b_add_file"
+            class="addFile-send"
+            style="width: 30px;"
+            caption="Добавить файл"
+          />
+
+          <input type="hidden" name="submit_upload" value="true" />
+        </form>
+      </td>
+    </tr>
+  </table>
+</div>

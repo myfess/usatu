@@ -1,0 +1,40 @@
+{% extends "app/layout.html" %}
+
+{% block content %}
+
+{% include "app/common/sbis.html" %}
+
+<script type="text/javascript">
+  var
+    global_subject_id = {{ SUBJECT_ID }},
+    global_type_id = {{ TYPE_ID }},
+    global_bread_crumbs = {{ BREAD_CRUMBS | safe }};
+</script>
+
+<div style="position: relative; height: 20px">
+  <div class="ws-root-template"
+    style="position: absolute; left: 0px; top: 5px; width: 460px;"
+    data-template-name="js!mod_usatu/bread_crumbs/bread_crumbs">
+  </div>
+
+  {% if ENABLE_ADD_FILE  %}
+    <div class="ws-root-template"
+      style="position: absolute; right: 8px;"
+      data-template-name="js!mod_usatu/add_file_btn/add_file_btn">
+    </div>
+  {% endif %}
+</div>
+
+<div style="height: 10px"></div>
+
+<div class="main_content_block">
+  <div class="ws-root-template" data-template-name="js!mod_usatu/files_brws/files_brws"></div>
+</div>
+
+{% endblock %}
+
+{% block content_right_menu %}
+  {% if RIGHT_MENU  %}
+    {% include "app/files_for_edu/menu.html" %}
+  {% endif %}
+{% endblock %}

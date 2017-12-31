@@ -1,0 +1,44 @@
+<link href="http://usatu.com/ws/css/core.css" type="text/css" rel=stylesheet>
+<link rel="stylesheet" data-pack-name="ws-core-styles" type="text/css" href="http://usatu.com/ws/css/themes/webfonts/fonts.css" />
+
+<script type="text/javascript">
+  window.service = {
+    "appRoot": "/",
+    "resourcesRoot": "/resources/",
+    "wsRoot": "/ws/"
+  };
+  window.preprocessor = false;
+  window.buildnumber = null;
+</script>
+
+<script type="text/javascript">
+  window.wsConfig = {
+    appRoot: '/',
+    defaultServiceUrl: '/service/',
+    globalConfigSupport: '' || false,
+    resourceRoot: '/resources/',
+    saveLastState: '' || false,
+    userConfigSupport: '' || false,
+    mysbis: '{{ USATU_PATH }}/sbis/',
+    usatusbis: 'http://usatu.com/ws/',
+    cdnRoot: 'http://usatu.com/cdn/',
+    wsRoot: 'https://cdn.jsdelivr.net/npm/sbis-node-ws@17.200.169/lib/ws/'
+  };
+</script>
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sbis-node-ws@17.200.169/lib/ws/ext/requirejs/require.js" data-pack-name="skip"></script>
+<script type="text/javascript" src="{{ USATU_PATH }}/sbis/config.js" data-pack-name="skip"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sbis-node-ws@17.200.169/lib/ws/core/core-migrate.js" data-pack-name="skip"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sbis-node-ws@17.200.169/lib/ws/ext/jquery-min.js"  data-pack-name="skip"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sbis-node-ws@17.200.169/lib/ws/ext/jquery-cookie-full.js"  data-pack-name="skip"></script>
+<script type="text/javascript" src="{{ USATU_PATH }}/sbis/contents.js" data-pack-name="skip"></script>
+<script type="text/javascript" id="ws-include-components"></script>
+
+<script type="text/javascript">
+  require(['Core/core-min']);
+  $ws.core.ready.addCallback(function() {
+      require(['bootup'], function() {
+        $ws.core.bootup();
+      });
+  })
+</script>

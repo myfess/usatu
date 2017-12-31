@@ -1,0 +1,94 @@
+<font class=NavBread>
+<a href="">USATU.com</a> > <b>Модерирование</b> > <a href="mod/files_for_edu/">Файлы</a> > <b>{FILE_ID}</b><br><br>
+</font>
+
+
+<table border=0 cellspacing="0"  cellpadding="5" width=100%>
+ <tr>
+   <td class=TdSpaceWithBookmarks width=20>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+   <td class=TdCloseWithBookmarks>&nbsp;&nbsp;<a href="mod/news/">Новости</a>&nbsp;&nbsp;</td>
+   <td class=TdSpaceWithBookmarks width=40>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+   <td class=TdCloseWithBookmarks>&nbsp;&nbsp;<a href="mod/comments/">Комментарии</a>&nbsp;&nbsp;</td>
+   <td class=TdSpaceWithBookmarks width=40>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+   <td class=TdCloseWithBookmarks>&nbsp;&nbsp;<a href="mod/teachers/">Преподы</a>&nbsp;&nbsp;</td>
+   <td class=TdSpaceWithBookmarks width=40>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+   <td class=TdOpenWithBookmarks>&nbsp;&nbsp;Файлы&nbsp;&nbsp;</td>
+   <td class=TdSpaceWithBookmarks width=40>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+   <td class=TdCloseWithBookmarks>&nbsp;&nbsp;<a href="mod/photos/">Фотки</a>&nbsp;&nbsp;</td>
+   <td class=TdSpaceWithBookmarks width=40>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+   <td class=TdCloseWithBookmarks>&nbsp;&nbsp;<a href="mod/meet/">Знакомства</a>&nbsp;&nbsp;</td>
+
+   <td class=TdSpaceWithBookmarks width=100%>&nbsp;</td>
+ </tr>
+</table>
+
+
+<table class=TableWithBookmarks  bgcolor=c1c1c1 cellSpacing=0 cellPadding=0 width='100%' border=0>
+  <tr>
+    <td valign=top bgColor=white>
+      <table cellSpacing=0 cellPadding=0 width=100%>
+        <tr>
+          <td class=PageContent>
+            
+            <br><font class=title2>Редактируем файл: "{FILE_ID}"</font><br>
+
+            <form action="mod/files_for_edu/edit/{FILE_ID}/" method=POST>
+              <font class=errorMessage>
+                <tpl:no_subject>
+                  Вы не указали дисциплину файла<br>
+                </tpl:no_subject>
+
+                <tpl:no_type>
+                  Вы не указали тип файла<br>
+                </tpl:no_type>
+              </font>
+
+              <table border=0 class=TableAddFile cellSpacing=0 cellPadding=2 width=100%>
+                <tr>
+                  <td>Описание:</td>
+                  <td width="100%"><input class=border name="description" type="tetx" style='width:100%' value="{FILE_DESCRIPTION}"></td>
+                </tr>
+                <tr>
+                  <td>Автор:</td>
+                  <td><input class=border name="author" type="tetx" style='width:100%' value="{FILE_AUTHOR}"></td>
+                </tr>
+
+                <tr>
+                  <td>Дисциплина:&nbsp;</td>
+                  <td>
+                    <select name='subject'>
+                      <option value='-1'></option>
+                      <tpl:subjects>
+                      <tpl:subject>
+                        <option value='{SUBJECT_ID}' <tpl:subject_{SUBJECT_ID}>selected</tpl:subject_{SUBJECT_ID}>>{SUBJECT_SUBJECT}</option>
+                      </tpl:subject>
+                    </select>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Тип:</td>
+                  <td>
+                    <select name='type'>
+                      <option value='-1'></option>
+                      <tpl:types>
+                      <tpl:type>
+                        <option value='{TYPE_ID}' <tpl:type_{TYPE_ID}>selected</tpl:type_{TYPE_ID}>>{TYPE_TYPE}</option>
+                      </tpl:type>
+                    </select>
+
+                  </td>
+
+                </tr>
+              </table>
+              <br>
+              <input class=f type="submit" value="Изменить" name="submit_upload">
+              <input class=f type="submit" value="Удалить" name="submit_delete">
+            </form>
+
+
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>

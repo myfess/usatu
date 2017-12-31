@@ -1,0 +1,35 @@
+{% extends "app/layout.html" %}
+
+{% block content %}
+
+{% include "app/common/sbis.html" %}
+
+<script type="text/javascript">
+  var
+    global_bread_crumbs = {{ BREAD_CRUMBS | safe }};
+</script>
+
+<div style="position: relative; height: 20px">
+  <div class="ws-root-template"
+    style="position: absolute; left: 0px; top: 5px; width: 460px;"
+    data-template-name="js!mod_usatu/bread_crumbs/bread_crumbs">
+  </div>
+  <div class="ws-root-template"
+    style="position: absolute; right: 8px;"
+    data-template-name="js!mod_usatu/add_theme_btn/add_theme_btn">
+  </div>
+</div>
+
+<div class="board_theme_title">
+  {{ THEME_TITLE }}
+</div>
+
+<script>
+  System
+    .import('{{ USATU_PATH }}/app/comments/comments')
+    .catch(function (err) {console.error(err);});
+</script>
+
+<comments object-id="{{ THEME_ID }}" page-link="board/theme/{{ THEME_ID }}"></comments>
+
+{% endblock %}

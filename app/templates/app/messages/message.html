@@ -1,0 +1,82 @@
+<table bgcolor=c1c1c1 cellSpacing=1 cellPadding=0 width='100%' border=0>
+  <tr>
+    <td bgcolor=white width=100%>
+
+      <table cellSpacing=0 cellPadding=0 width='100%' border=0>
+        <tr height=15>
+          <td align=left class=MessageSubject>
+            {% if msg.stick %}
+              <img
+                src='{{ USATU_PATH }}/picture/design/stick.gif'
+                border=0
+                width="11"
+                height="12"
+                alt='Новость прикреплена'>&nbsp;
+            {% endif %}
+            <b>{{ msg.title }}</b>
+            <br />
+          </td>
+          <td align=right class=MessageSubject>
+            <font color=#58606a class=smalldate>{{ msg.message_time }}</font>
+            <font color=#58606a class=smalldate>
+              {{ msg.message_author | safe }}&nbsp;{% if is_editor %}({{ msg.ip }}){% endif %}
+            </font>
+          </td>
+        </tr>
+        <tr>
+          <td colspan=2 class=MessageText>
+            <table cellspacing="0" cellpadding="0" border=0 width=100% height=1>
+              <tr>
+                <td bgcolor=D9D9D9></td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td colspan=2 class=MessageText>
+            {{ msg.message_text | safe}}
+            <br>
+          </td>
+        </tr>
+
+        <tr>
+          <td colspan=2 class=MessageText>
+            <table cellspacing="0" cellpadding="0" border=0 width=100% height=1>
+              <tr>
+                <td bgcolor=D9D9D9></td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+
+        <tr>
+          <td colspan=2 valign=middle class=MessageText>
+            <table cellSpacing=0 cellPadding=0 border=0>
+              <tr class=CommentActions>
+                {% if not msg.is_comment %}
+                  <td valign=middle>
+                    <a href="{{ msg.message_category }}/{{ msg.message_id }}/">
+                      комментарии&nbsp;[{{ msg.count_comment }}]
+                    </a>
+                  </td>
+
+                  <td>&nbsp;|&nbsp;<a href='comment/{{ msg.message_id }}/'>комментировать</a></td>
+                {% endif %}
+                {% if is_editor %}
+                  {% if not msg.is_comment %}
+                    <td>&nbsp;|&nbsp;</td>
+                  {% endif %}
+                  <td><a href='writer/{{ msg.message_id }}/'>редактировать</a></td>
+                {% endif %}
+              </tr>
+            </table>
+          </td>
+        </tr>
+
+      </table>
+
+    </td>
+  </tr>
+</table>
+
+<br />

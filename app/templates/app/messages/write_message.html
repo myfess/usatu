@@ -1,0 +1,17 @@
+{% extends "app/layout.html" %}
+
+{% block content %}
+
+<script>
+  System
+    .import('{{ USATU_PATH }}/app/comments/rich-text-editor/rich-text-editor')
+    .catch(function (err) {console.error(err);});
+</script>
+<rich-text-editor
+  message-id="{{ MESSAGE_ID }}"
+  parent-id="{{ PARENT_ID }}"
+  board-theme="{{ BOARD_THEME }}"
+>
+</rich-text-editor>
+
+{% endblock %}

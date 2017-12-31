@@ -1,0 +1,7 @@
+.dgv_text_size table {
+  font-size: 12px !important;
+}
+
+.dgv_text_size .controls-DataGridView__td {
+  vertical-align: text-top;
+}

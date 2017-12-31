@@ -1,0 +1,14 @@
+<ws:if data="{{ additional_data.show_type }}">
+  <b>{{ item.get('type') }}:</b>
+</ws:if>
+
+<a href="http://usatu.com/files/doc/{{ item.get('id') }}{{ item.get('ext') }}">
+  {{ item.get('description') }}
+</a>
+<br />
+Автор: {{ item.get('author') }}
+
+<ws:if data="{{ additional_data.is_editor }}">
+  [<a href="mod/files_for_edu/edit/{{ item.get('id') }}/"><b>Р</b></a>]
+</ws:if>
+

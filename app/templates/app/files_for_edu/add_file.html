@@ -1,0 +1,23 @@
+{% extends "app/layout.html" %}
+
+{% block content %}
+
+{% include "app/common/sbis.html" %}
+
+<script type="text/javascript">
+  var
+    global_bread_crumbs = {{ BREAD_CRUMBS | safe }},
+    global_add_file_settings = {{ FILE_SETTINGS | safe }};
+</script>
+
+<div>
+  <div class="ws-root-template" data-template-name="js!mod_usatu/bread_crumbs/bread_crumbs"></div>
+</div>
+
+<div style="height: 10px"></div>
+
+<div class="main_content_block">
+  <div class="ws-root-template" data-template-name="js!mod_usatu/add_file/add_file"></div>
+</div>
+
+{% endblock %}

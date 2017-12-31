@@ -1,0 +1,33 @@
+{% extends "app/layout.html" %}
+
+{% block content %}
+
+<table style="width: 100%; margin-bottom: 10px">
+  <tr>
+    <td>
+      <font class=NavBread>
+        <a href="">USATU.com</a>&nbsp;>&nbsp;<b>Новости</b>
+      </font>
+    </td>
+    <td>
+      <table cellSpacing=0 cellPadding=0 border=0 style="float: right;">
+        <tr>
+          <td>
+            <a class=WtiteNews href="writer/">
+              <img src="{{ USATU_PATH }}/picture/main/write_s2.png" border=0 alt="Написать новость">
+            </a>
+          </td>
+          <td>&nbsp;<a class=WtiteNews href="writer/">Написать&nbsp;новость</a></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+
+{% for msg in news %}
+  {% include "app/messages/message.html" %}
+{% endfor %}
+
+{{ PAGE_SELECT | safe }}
+
+{% endblock %}

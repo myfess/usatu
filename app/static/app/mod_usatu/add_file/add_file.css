@@ -1,0 +1,14 @@
+.fd_subject {min-width: 160px}
+
+.ft_subject {width: 240px}
+
+.ft_description {width: 423px}
+
+.TableAddFile {font-size: 12px}
+
+.TableAddFile td {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.addFile-send {margin-top: 10px}

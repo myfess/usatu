@@ -1,0 +1,54 @@
+{% extends "app/layout.html" %}
+
+{% block content %}
+
+<script language=javascript src="{{ USATU_PATH }}/common/moderation.js" type=text/javascript></script>
+
+<font class=NavBread>
+<a href="">USATU.com</a> > <b>Модерирование</b> > <b>Новости</b><br><br>
+</font>
+
+
+<table border=0 cellspacing="0"  cellpadding="5" width=100%>
+ <tr>
+   <td class=TdSpaceWithBookmarks width=20>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+   <td class=TdOpenWithBookmarks>&nbsp;&nbsp;Новости&nbsp;&nbsp;</td>
+   <td class=TdSpaceWithBookmarks width=40>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+   <td class=TdCloseWithBookmarks>&nbsp;&nbsp;<a href="mod/comments/">Комментарии</a>&nbsp;&nbsp;</td>
+   <td class=TdSpaceWithBookmarks width=40>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+   <td class=TdCloseWithBookmarks>&nbsp;&nbsp;<a href="mod/teachers/">Преподы</a>&nbsp;&nbsp;</td>
+   <td class=TdSpaceWithBookmarks width=40>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+   <td class=TdCloseWithBookmarks>&nbsp;&nbsp;<a href="mod/files_for_edu/">Файлы</a>&nbsp;&nbsp;</td>
+   <td class=TdSpaceWithBookmarks width=40>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+   <td class=TdCloseWithBookmarks>&nbsp;&nbsp;<a href="mod/photos/">Фотки</a>&nbsp;&nbsp;</td>
+   <td class=TdSpaceWithBookmarks width=40>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+   <td class=TdCloseWithBookmarks>&nbsp;&nbsp;<a href="mod/meet/">Знакомства</a>&nbsp;&nbsp;</td>
+
+   <td class=TdSpaceWithBookmarks width=100%>&nbsp;</td>
+ </tr>
+</table>
+
+<table class=TableWithBookmarks  bgcolor=c1c1c1 cellSpacing=0 cellPadding=0 width='100%' border=0>
+  <tr>
+    <td valign=top bgColor=white>
+      <table cellSpacing=0 cellPadding=0 width=100%>
+        <tr>
+          <td class=PageContent>
+            <br />
+            <br />
+            {% for msg in news %}
+              <b>{{ msg.category_path }}</b> |
+              <a onclick="release_message({{ msg.id }}, false)">опубликовать</a> |
+              <a onclick="delete_message({{ msg.id }}, false)">удалить</a><br />
+              {% include "app/messages/message.html" %}
+            {% endfor %}
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+
+{% endblock %}
+
+

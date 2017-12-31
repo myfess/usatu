@@ -1,0 +1,78 @@
+{% extends "app/layout.html" %}
+
+{% block content %}
+
+<script language=javascript src="{{ USATU_PATH }}/common/moderation.js" type=text/javascript></script>
+
+<font class=NavBread>
+<a href="">USATU.com</a> > <b>Модерирование</b> > <b>Преподаватели УГАТУ</b><br><br>
+</font>
+
+<table border=0 cellspacing="0"  cellpadding="5" width=100%>
+ <tr>
+   <td class=TdSpaceWithBookmarks width=20>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+   <td class=TdCloseWithBookmarks>&nbsp;&nbsp;<a href="mod/news/">Новости</a>&nbsp;&nbsp;</td>
+   <td class=TdSpaceWithBookmarks width=40>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+   <td class=TdCloseWithBookmarks>&nbsp;&nbsp;<a href="mod/comments/">Комментарии</a>&nbsp;&nbsp;</td>
+   <td class=TdSpaceWithBookmarks width=40>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+   <td class=TdOpenWithBookmarks>&nbsp;&nbsp;Преподы&nbsp;&nbsp;</td>
+   <td class=TdSpaceWithBookmarks width=40>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+   <td class=TdCloseWithBookmarks>&nbsp;&nbsp;<a href="mod/files_for_edu/">Файлы</a>&nbsp;&nbsp;</td>
+   <td class=TdSpaceWithBookmarks width=40>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+   <td class=TdCloseWithBookmarks>&nbsp;&nbsp;<a href="mod/photos/">Фотки</a>&nbsp;&nbsp;</td>
+   <td class=TdSpaceWithBookmarks width=40>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+   <td class=TdCloseWithBookmarks>&nbsp;&nbsp;<a href="mod/meet/">Знакомства</a>&nbsp;&nbsp;</td>
+
+   <td class=TdSpaceWithBookmarks width=100%>&nbsp;</td>
+ </tr>
+</table>
+
+<table class=TableWithBookmarks bgcolor=c1c1c1 cellSpacing=0 cellPadding=0 width='100%' border=0>
+  <tr>
+    <td valign=top bgColor=white>
+      <table cellSpacing=0 cellPadding=0 width=100%>
+        <tr>
+          <td class=PageContent>
+            <br />
+            <font class=title2>Добавленные преподы:</font>
+            <br />
+
+            {% for t in teachers %}
+              <br />
+              <table bgcolor=c1c1c1 cellSpacing=1 cellPadding=0 width='100%' border=0>
+                <tr>
+                  <td>
+                    <table bgcolor=white width="100%">
+                      <tr>
+                        <td>
+                          <a href="teachers/edit/{{ t.id }}/">редактировать</a> |
+                          <a onclick="release_teacher({{ t.id }})">разрешить</a> |
+                          <a onclick="delete_teacher({{ t.id }})">удалить</a>
+                          <br />
+                          <hr />
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <b>Имя:</b> <a href="teachers/{{ t.id }}/"><b>{{ t.name }}</b></a>
+                          <br />
+                          <b>Кафедра:</b> {{ t.chair }}<br />
+                          <b>Дисциплины:</b> {{ t.subject }}<br />
+                          <b>Информация:</b> {{ t.information }}<br />
+                          <b>Фотографии:</b> {{ t.fotos }}<br />
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+            {% endfor %}
+
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+
+{% endblock %}

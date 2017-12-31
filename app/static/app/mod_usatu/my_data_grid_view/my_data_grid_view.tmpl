@@ -1,0 +1,29 @@
+<div>
+  <table style="border-spacing: {{ border_spacing }}px; width: 100%; border-collapse: separate;" >
+    <tr>
+      <ws:for data="col in columns">
+        <td style="color: #637388;"><b>{{ col.title }}</b></td>
+      </ws:for>
+    </tr>
+
+    <ws:for data="rec in _data">
+      <tr>
+        <ws:for data="col in columns">
+          <td width={{ col.width }}>
+
+            <ws:if data="{{ col.field }}">
+              {{ rec.get(col.field) }}
+            </ws:if>
+            <ws:else>
+              <ws:partial
+                template="{{ col.cellTemplate }}"
+                item="{{ rec }}"
+                additional_data={{ col.additional_data }} />
+            </ws:else>
+
+          </td>
+        </ws:for>
+      </tr>
+    </ws:for>
+  </table>
+</div>
