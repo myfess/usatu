@@ -3,7 +3,6 @@ Definition of urls for pyusatu.
 """
 
 from django.conf.urls import url
-# import django.contrib.auth.views
 
 from app.api import api_navigation, sbis_api_navigation
 from app.teachers import teachers_list, get_teachers_teacher, teachers_add_edit

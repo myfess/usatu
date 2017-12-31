@@ -74,13 +74,6 @@ def get_client_ip(request):
     return ip
 
 
-def myescape(s):
-    s = s.replace("`", "\\`")
-    s = s.replace("'", "\\'")
-    s = s.replace("\\", "\\\\")
-    return s
-
-
 def get_records_set_json(s, d):
     res = {
         'jsonrpc': '2.0',

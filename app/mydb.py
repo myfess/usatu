@@ -2,8 +2,6 @@
 
 from django.db import connections
 
-from app.common import myescape
-
 
 class MyDB:
     def __init__(self):
@@ -57,3 +55,10 @@ class MyDB:
                 sql = sql.replace('@' + key + '@', str(int(value)))
 
         return self._SqlQuery(sql, no_result)
+
+
+def myescape(s):
+    s = s.replace("`", "\\`")
+    s = s.replace("'", "\\'")
+    s = s.replace("\\", "\\\\")
+    return s

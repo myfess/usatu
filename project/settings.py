@@ -1,7 +1,9 @@
-import os
-import posixpath
+"""
+"""
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+import os
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
@@ -19,18 +21,15 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
-INSTALLED_APPS = [
+INSTALLED_APPS = (
     'app',
-    # Add your apps here to enable them
-    # 'django.contrib.admin',
-    # 'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-]
+)
 
-MIDDLEWARE_CLASSES = [
+MIDDLEWARE_CLASSES = (
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -39,7 +38,7 @@ MIDDLEWARE_CLASSES = [
     #'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-]
+)
 
 ROOT_URLCONF = 'project.urls'
 
@@ -73,36 +72,8 @@ DATABASES = {
         'PASSWORD': '****',
         'HOST': '159.89.25.97',
         'PORT': '5432'
-    },
-
-    'default2': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'usatu',
-        'USER': 'usatu',
-        'PASSWORD': '123456',
-        'HOST': '127.0.0.1',
-        'PORT': '15432'
     }
 }
-
-
-# Password validation
-# https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
-
-AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
-]
 
 
 # Internationalization
@@ -123,5 +94,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
 STATIC_URL = '/static/'
+# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+# Allow Django from all hosts. This snippet is installed from
+# /var/lib/digitalocean/allow_hosts.py
 
-STATIC_ROOT = posixpath.join(*(BASE_DIR.split(os.path.sep) + ['static']))
+
+# Discover our IP address
+ALLOWED_HOSTS = ['159.89.25.97', 'highload.org']
+
