@@ -11,18 +11,16 @@
   border-spacing: 0px; border-collapse: separate; padding: 5px;">
   <tr>
     <td valign=top align=left bgcolor=#ffffff>
-
-      <tpl:editor>
-        <table class="left_menu_table" width="100%" style="margin-bottom: 15px">
-          <tr class=tab1cap1>
-            <td width=16></td>
-            <td>
-              <a href="mod/news/">модерирование</a>
-            </td>
-          </tr>
-        </table>
-
-      </tpl:editor>
+        {% if is_editor %}
+          <table class="left_menu_table" width="100%" style="margin-bottom: 15px">
+            <tr class=tab1cap1>
+              <td width=16></td>
+              <td>
+                <a href="mod/news/">модерирование</a>
+              </td>
+            </tr>
+          </table>
+        {% endif %}
 
       <table class="left_menu_table" width="100%">
         <tr class=tab1cap1>
@@ -54,12 +52,14 @@
           </td>
           <td width=100%><a href="photos/">Фотогалерея</a></td></tr>
         -->
-        <tr class=tab1cap1>
+
+        <!-- <tr class=tab1cap1>
           <td align=right>
             <img src="/static/app/picture/main/meet_s.gif" border =0 alt="Знакомства">
           </td>
           <td class=cap1sub1 width=100%><a href="meet/">Знакомства</a></td>
-        </tr>
+        </tr> -->
+
         <!--
         <tr class=tab1cap1>
           <td align=right >

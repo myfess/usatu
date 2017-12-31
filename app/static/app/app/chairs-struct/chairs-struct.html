@@ -3,7 +3,7 @@
     <a  (click)="chair_click_tree($event, p.id)" class='chairs_href' title="{{p.name}}">
       <img id='pic_{{p.id}}'
 
-        [src]="'usatu/picture/tree/' + ((p.id==selected_faculty&&full_name) ? 'min.gif' : 'plu.gif')"
+        [src]="'static/app/picture/tree/' + ((p.id==selected_faculty&&full_name) ? 'min.gif' : 'plu.gif')"
         />{{p.short_name}}
     </a>
     <div id='tree_{{p.id}}' class='chairs_inner_block' [hidden]="p.id!=selected_faculty||!full_name">

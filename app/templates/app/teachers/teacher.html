@@ -1,5 +1,9 @@
+{% extends "app/layout.html" %}
+
+{% block content %}
+
 <font class=NavBread>
-<a href="">USATU.com</a> > <a href="teachers/">Преподаватели УГАТУ</a> > <b>{TEACHER_NAME}</b>
+<a href="">USATU.com</a> > <a href="teachers/">Преподаватели УГАТУ</a> > <b>{{ teacher.name }}</b>
 </font>
 <br><br>
 
@@ -19,10 +23,10 @@
       <table cellSpacing=0 cellPadding=15>
         <tr>
           <td class=PageTitle>
-            {TEACHER_NAME}
-            <tpl:is_editor>
-             / <a href='teachers/edit/{TEACHER_ID}/'><b>Р</b></a>
-            </tpl:is_editor>
+            {{ teacher.name }}
+            {% if is_editor %}
+              / <a href='teachers/edit/{{ teacher.id }}/'><b>Р</b></a>
+            {% endif %}
           </td>
         </tr>
       </table>
@@ -31,11 +35,32 @@
         <tr>
           <td class=PageContent>
             <table cellSpacing=0 cellPadding=5 width=100% border=0>
-              <tr><td class=TeacherTextContent colspan=2>{TEACHER_PHOTOS}</td></tr>
-              <tr><td class=TeacherTextContent>Место&nbsp;работы:&nbsp;</td><td class=TextContent>{FAC_NAME} > <A HREF="teachers/chair/{CHAIR_ID}/">{CHAIR_NAME} <b>({CHAIR_SHORT_NAME})</b></A></td></tr>
-              <tr><td class=TeacherTextContent>Предметы:&nbsp;</td><td class=TextContent>{TEACHER_SUBJECTS}</td></tr>
-              <tr><td class=TeacherTextContent valign=top>Информация:&nbsp;</td><td class=TextContent>{TEACHER_INFORMATION}</td></tr>
-              <tr><td colspan="2"><a class=SendError href="mailto:my_fess@mail.ru">Сообщить о неточностях</a></td></tr>
+              <tr>
+                <td class=TeacherTextContent colspan=2>
+                  {{ teacher.photos | safe }}
+                </td>
+              </tr>
+              <tr>
+                <td class=TeacherTextContent>Место&nbsp;работы:&nbsp;</td>
+                <td class=TextContent>{{ teacher.fc_short_name }}  >
+                  <a HREF="teachers/chair/{{ teacher.id_chair }}/">{{ teacher.chair_name }}
+                    <b>({{ teacher.chair_short_name }})</b>
+                  </a>
+                </td>
+              </tr>
+              <tr>
+                <td class=TeacherTextContent>Предметы:&nbsp;</td>
+                <td class=TextContent>{{ teacher.subject }}</td>
+              </tr>
+              <tr>
+                <td class=TeacherTextContent valign=top>Информация:&nbsp;</td>
+                <td class=TextContent>{{ teacher.information }}</td>
+              </tr>
+              <tr>
+                <td colspan="2">
+                  <a class=SendError href="mailto:my_fess@mail.ru">Сообщить о неточностях</a>
+                </td>
+              </tr>
             </table>
 
           </td>
@@ -46,6 +71,10 @@
 </table>
 
 <script>
-  System.import('{USATU_PATH}/app/comments/comments').catch(function (err) {console.error(err);});
+  System
+    .import('{{ USATU_PATH }}/app/comments/comments')
+    .catch(function (err) {console.error(err);});
 </script>
-<comments object-id="{TEACHER_ID}" page-link="teachers/{TEACHER_ID}"></comments>
+<comments object-id="{{ teacher.id }}" page-link="teachers/{{ teacher.id }}"></comments>
+
+{% endblock %}

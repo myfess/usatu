@@ -1,5 +1,10 @@
+{% extends "app/layout.html" %}
+
+{% block content %}
+
 <script>
-  System.import('{USATU_PATH}/app/teacher-card/teacher-card')
+  System
+    .import('{{ USATU_PATH }}/app/teacher-card/teacher-card')
     .catch(function (err) {console.error(err);});
 </script>
 
@@ -34,3 +39,4 @@
   </tr>
 </table>
 
+{% endblock %}

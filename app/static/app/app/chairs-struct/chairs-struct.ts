@@ -61,9 +61,9 @@ export class ChairsStructComponent implements OnInit {
   private choose_image(_id) {
     let id = '#pic_' + _id;
     if ($(id).attr('src').slice(-7) == 'plu.gif') {
-      $(id).attr('src', '/usatu/picture/tree/min.gif');
+      $(id).attr('src', '/static/app/picture/tree/min.gif');
     } else {
-      $(id).attr('src', '/usatu/picture/tree/plu.gif');
+      $(id).attr('src', '/static/app/picture/tree/plu.gif');
     }
   }
 }

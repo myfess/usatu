@@ -47,7 +47,7 @@
           <td>
             <ng-template ngFor let-b [ngForOf]="toolbar_buttons">
               <a (click)="this[b[0]](b[1])"><img
-                  src="{{ 'usatu/picture/BBcode/' + b[3] }}" alt="{{ b[2] }}"
+                  src="{{ 'static/app/picture/BBcode/' + b[3] }}" alt="{{ b[2] }}"
                   width="23" height="22" border="0"  align="absmiddle" /></a>
             </ng-template>
           </td>
@@ -58,7 +58,7 @@
               <tr>
                 <ng-template ngFor let-s [ngForOf]="smiles">
                   <td>
-                    <a (click)="emoticon(s[0])"><img src="usatu/picture/smile/{{ s[1] }}.gif" /></a>
+                    <a (click)="emoticon(s[0])"><img src="static/app/picture/smile/{{ s[1] }}.gif" /></a>
                   </td>
                 </ng-template>
               </tr>

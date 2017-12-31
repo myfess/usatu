@@ -1,76 +1,59 @@
-﻿from django.conf import settings
+﻿# -*- coding: utf-8 -*-
+
 from django.db import connections
 
-import json
-import time
-import hashlib
-import random
-
-class MyDB2:
-   def __init__(self):
-      self.cursor = connections['default'].cursor()
-      
-   def SqlQuery(self, sql, no_result=False):
-      try:
-         if len(sql) == 0:
-            return list()
-
-         self.cursor.execute(sql)
-
-         if no_result:
-            #self.cursor.commit()
-            return None
-
-         columns = [column[0] for column in self.cursor.description]
-         results = []
-         for row in self.cursor.fetchall():
-            results.append(dict(zip(columns, row)))
-         return results
-      except Exception as e:
-         print('Ошибка выполнение запроса: {err}'.format(err=str(e)))
+from app.common import myescape
 
 
-def escape(s):
-    s = s.replace("`", "\\`")
-    s = s.replace("\\", "\\\\")
-    return s
+class MyDB:
+    def __init__(self):
+        self.cursor = connections['default'].cursor()
 
-def md5(s):
-    m = hashlib.md5()
-    m.update(s.encode('utf-8'))
-    return m.hexdigest()
+    def _SqlQuery(self, sql, no_result=False):
+        try:
+            if not sql:
+                return []
 
-def get_rand_string(_id):
-    _seed = int(time.time()) ^ int(_id)
-    random.seed(_seed)
-    digi = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", 
-            "A","B","C","D","E","F","G","H","J","K","L","M","N","P","Q","R","S","T","U","V","W","Y","Z",
-            "a","b","c","d","e","f","g","h","j","k","l","m","n","p","q","r","s","t","u","v","w","y","z"]
-    res = ""
-    n = len(digi)
-    
-    for i in range(50):
-        res += digi[random.randint(0, n - 1)]
-    return res
+            self.cursor.execute(sql)
 
-def auth(request, db):
-    user = {"id": 0,
-            "islogin": False,
-            "login": "Guest", 
-            "permission": "g"}
+            if no_result:
+                #self.cursor.commit()
+                return None
 
-    sid = escape(request.COOKIES.get('sid', ""))
-    sql = """ 
-        SELECT u.id, u.login, u.permission
-        FROM cookies AS c 
-        LEFT JOIN users AS u ON (u.id = c.user_id)
-        WHERE c.cookie = '{sid}' """.format(sid=sid)
-    r = db.query(sql)
+            columns = [column[0] for column in self.cursor.description]
+            results = []
+            for row in self.cursor.fetchall():
+                results.append(dict(zip(columns, row)))
+            return results
+        except Exception as e:
+            print('Ошибка выполнение запроса: {err}'.format(err=str(e)))
+            raise e
 
-    if len(r) > 0:
-        user["id"] = int(r[0]["id"])
-        user["islogin"] = True
-        user["login"] = r[0]["login"]
-        user["permission"] = r[0]["permission"]
 
-    return user
+    def SqlQueryScalar(self, sql, params=None, no_result=False):
+        rs = self.SqlQuery(sql, params, no_result)
+        if len(rs) != 1:
+            raise Exception('SqlQueryScalar: Количество строк не может быть: {}'.format(len(rs)))
+        keys = list(rs[0].keys())
+        if len(keys) != 1:
+            raise Exception(
+                'SqlQueryScalar: Количество столбцов не может быть: {}'.format(len(keys))
+            )
+        return rs[0][keys[0]]
+
+
+    def SqlQuery(self, sql, params=None, no_result=False):
+        params = params if params else {}
+
+        for key, value in params.items():
+            if value is None:
+                sql = sql.replace('@' + key + '@', 'NULL')
+            elif isinstance(value, str):
+                sql = sql.replace('@' + key + '@', "'" + myescape(value) + "'")
+            elif isinstance(value, bool):
+                v = 'TRUE' if value else 'FALSE'
+                sql = sql.replace('@' + key + '@', v)
+            else:
+                sql = sql.replace('@' + key + '@', str(int(value)))
+
+        return self._SqlQuery(sql, no_result)

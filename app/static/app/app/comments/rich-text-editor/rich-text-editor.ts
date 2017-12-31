@@ -138,11 +138,11 @@ export class RichTextEditorComponent {
   }
 
   private handlerDelete(data) {
-    document.location.href = data.url;
+    document.location.href = $.cookie('usatu_last_page');
   }
 
   private handlerWrite(data) {
-    document.location.href = data.url;
+    document.location.href = $.cookie('usatu_last_page');
   }
 
   writeMessage() {

@@ -34,13 +34,14 @@
               <tr>
                 <td colspan="2" bgcolor=8F98A5 height="32" align=right class=HeaderHello
                   style="padding-right: 10px;">
-                  <tpl:registered_user>
-                    <script>
-                      System.import('{{ USATU_PATH }}/app/registered/registered')
-                        .catch(function (err) {console.error(err);});
-                    </script>
+                    {% if not unentered_user  %}
+                      <script>
+                        System.import('{{ USATU_PATH }}/app/registered/registered')
+                          .catch(function (err) {console.error(err);});
+                      </script>
 
-                    <registered></registered>
+                      <registered></registered>
+                    {% endif %}
                   </tpl:registered_user>
                 </td>
               </tr>

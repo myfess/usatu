@@ -41,8 +41,8 @@
                 <td valign=top class=Teachers>
                   <div class='teachers_list'>
                      {% for c in chars %}
-                        <a id='char_123'>
-                           <h3><b>{{ c.char }}</b></h3>
+                        <a id='char_{{ c.char_en }}'>
+                           <h3><b>{{ c.char_ru }}</b></h3>
                         </a>
 
                         {% for t in c.ts %}
@@ -63,5 +63,5 @@
 {% endblock %}
 
 {% block content_right_menu %}
-{% include "app/teachers/menu.html" %}   
+  {% include "app/teachers/menu.html" %}
 {% endblock %}

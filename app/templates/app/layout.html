@@ -11,10 +11,6 @@
       <link href="{{ USATU_PATH }}/common/style.css" type="text/css" rel=stylesheet>
       <link href="https://cdn.jsdelivr.net/npm/@angular/material@2.0.0-beta.7/prebuilt-themes/indigo-pink.css" rel="stylesheet">
 
-      <script
-        language=javascript src="{{ USATU_PATH }}/common/MyRequest.js" type=text/javascript>
-      </script>
-
       {% if ES5  %}
         <script src="node_modules/jquery/dist/jquery.min.js"></script>
         <script src="node_modules/rxjs/bundles/Rx.min.js"></script>
@@ -24,9 +20,9 @@
         <script src="{{ USATU_PATH }}/systemjs.config.js"></script>
       {% endif %}
 
-
       {% if TYPESCRIPT  %}
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/jquery.cookie@1.4.1/jquery.cookie.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/rxjs/5.0.1/Rx.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/shim.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/zone.js/0.8.12/zone.js"></script>
@@ -43,10 +39,10 @@
     <script language=JavaScript>
       var enabled_prod_mode = false;
       var usatu_global_config = {
-        {{ ADDITIONAL_PARAMS }}
+        {{ ADDITIONAL_PARAMS | safe }}
         'user_name': '{{ USER_LOGIN }}',
         'user_id': '{{ USER_ID }}',
-        'avatar': null,
+        'avatar': {{ AVATAR }},
         'enableProdMode': function () {
           if ({{ PRODUCTION_STR }}) {
             if (!enabled_prod_mode) {
@@ -61,9 +57,18 @@
         'recaptcha': '{{ CAPTCHA_PUBLIC }}',
         'captcha_on': {{ CFG_CAPTCHA_ON_STR }}
       };
+
+      var cur = window.location.href;
+      cur = cur.replace(new RegExp('http://', 'g'), '');
+      var rs = cur.split('/');
+      rs = rs.slice(1);
+      cur = rs.join('/');
+      $.cookie('usatu_last_page', $.cookie('usatu_curr_page'), { expires : 90, path: '/' });
+      $.cookie('usatu_curr_page', cur, { expires : 90, path: '/' });
+
     </script>
 
-    {% include "app/header.html" %}   
+    {% include "app/header.html" %}
 
     <table bgcolor=#f2f0f1 border=0 height=100% width="100%" cellSpacing="0" cellPadding=0>
       <tr>
@@ -71,7 +76,7 @@
           <table style="border-spacing: 10px; width: 980px;">
             <tr>
               <td valign="top" style="width: 190px; background-color: #f2f0f1; padding: 0px;">
-                {% include "app/left_menu.html" %}   
+                {% include "app/left_menu.html" %}
               </td>
               <td valign="top" style="width: 560px; height: 100%; background-color: #f2f0f1; padding: 0px;">
                 {% block content %}{% endblock %}
@@ -90,7 +95,7 @@
         <td colspan=2 height="3" bgcolor="#333333"></td>
       </tr>
       <tr>
-        <td class=Copy>&nbsp;&nbsp;&copy; 2004-2017 <b>USATU</b>
+        <td class=Copy>&nbsp;&nbsp;&copy; 2004-2018 <b>USATU</b>
           <br>
           &nbsp;&nbsp;Powered by <a class=FessDesign href="mailto:my_fess@mail.ru">my_fess</a>
         </td>
@@ -112,9 +117,9 @@
   </body>
 </html>
 
-<tpl:gotocomment>
-<script language=JavaScript>
-  document.all['gotocomment_{COMMENT_ID}'].scrollIntoView(true);
-</script>
-</tpl:gotocomment>
+{% if COMMENT_ID  %}
+  <script language=JavaScript>
+    document.all['gotocomment_{{ COMMENT_ID }}'].scrollIntoView(true);
+  </script>
+{% endif %}
 
