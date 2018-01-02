@@ -15,19 +15,17 @@ server {
 
     keepalive_timeout 5;
 
-    # Your Django project's media files - amend as required
-    location /media  {
-        alias /home/django/django_project/django_project/media;
-    }
-
     # your Django project's static files - amend as required
     location /static {
-        alias /home/django/django_project/django_project/static;
+        alias /home/django/django_project/app/static;
     }
 
-    # Proxy the static assests for the Django Admin panel
-    location /static/admin {
-       alias /usr/lib/python2.7/dist-packages/django/contrib/admin/static/admin/;
+    location /static/files {
+        alias /home/django/django_project/files/static/files;
+    }
+
+    location /static/cdn {
+        alias /home/django/django_project/cdn/static/cdn;
     }
 
     location / {
