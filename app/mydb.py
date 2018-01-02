@@ -1,6 +1,11 @@
 ﻿# -*- coding: utf-8 -*-
 
+import os
+
 from django.db import connections
+from django.conf  import settings
+
+from app import consts
 
 
 class MyDB:
@@ -48,8 +53,10 @@ class MyDB:
         return self._SqlQuery(sql, params, no_result)
 
 
-def myescape(s):
-    s = s.replace("`", "\\`")
-    s = s.replace("'", "\\'")
-    s = s.replace("\\", "\\\\")
-    return s
+    def sql(self, name):
+        _root = getattr(settings, 'BASE_DIR', os.getcwd())
+        path = os.path.join(_root, consts.SQL_PATH, name + '.sql')
+        with open(path, 'r') as myfile:
+            data = myfile.read()
+            return data
+        return ''

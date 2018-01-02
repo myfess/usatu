@@ -95,6 +95,7 @@ ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
     '159.89.25.97',
+    'usatu.com',
     'highload.org'
 ]
 

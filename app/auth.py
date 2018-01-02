@@ -54,32 +54,20 @@ def get_rand_string(_id=0):
     return res
 
 
-def auth(auth_login, set_cookie=True):
+def auth(auth_login):
     db = mydb.MyDB()
-
     sid = md5(get_rand_string())
-    if set_cookie:
-        # TODO: нет такой функции
-        # SetCookie('usatu_auth', cookie_ID, time() + TIME_AUTH);
-        pass
-    sql = '''
-        INSERT INTO cookie_id
-        VALUES(@cookie_ID@, @auth_login@)
-    '''
-    db.SqlQuery(sql, {'cookie_ID': sid, 'auth_login': auth_login}, True)
+    db.SqlQuery(
+        db.sql('auth_sign_in'),
+        {'cookie_ID': sid, 'auth_login': auth_login},
+        True
+    )
     return sid
 
 
 def get_permissions(login):
     db = mydb.MyDB()
-
-    sql = '''
-        SELECT permission
-        FROM users
-        WHERE login = @login@
-    '''
-    ps = db.SqlQuery(sql, {'login': login})
-
+    ps = db.SqlQuery(db.sql('auth_permissions'), {'login': login})
     if len(ps) != 1:
         return consts.USER_PERMISSION
     return ps[0]['permission']
@@ -87,13 +75,7 @@ def get_permissions(login):
 
 def auth_sign_out(sid):
     db = mydb.MyDB()
-    sql = '''
-        DELETE
-        FROM cookie_id
-        WHERE cookie_id.id = @cookie_id@
-    '''
-    db.SqlQuery(sql, {'cookie_id': sid})
-    #SetCookie('usatu_auth', 0, time() - 1000000);
+    db.SqlQuery(db.sql('auth_sign_out'), {'cookie_id': sid})
     return True
 
 
@@ -109,7 +91,7 @@ def auth_sign_in(login, password):
     if password != user['password']:
         return {'token': None, 'msg': 'Неверный пароль'}
 
-    token = auth(login, False)
+    token = auth(login)
     return {'token': token}
 
 
@@ -120,25 +102,13 @@ class MyUser:
     avatar = None
 
     def __init__(self, request):
-        sql = '''
-            SELECT
-                cookie_id.login,
-                u.permission,
-                m.id,
-                m.avatar
-            FROM cookie_id
-            LEFT JOIN users u ON (u.login = cookie_id.login)
-            LEFT JOIN members m ON (m.name = cookie_id.login)
-            WHERE cookie_id.id = @cookie_id@
-        '''
-
         db = mydb.MyDB()
         sid = request.COOKIES.get('usatu_auth', '')
 
         if not sid:
             return
 
-        rs = db.SqlQuery(sql, {'cookie_id': sid})
+        rs = db.SqlQuery(db.sql('auth_user'), {'cookie_id': sid})
         if not rs:
             return
 

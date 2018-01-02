@@ -28,6 +28,7 @@ GUEST_IPB = 'Guest'
 COUNT_COMMENTS_PAGE = 20
 COUNT_MESSAGES_PAGE = 10
 
+SQL_PATH = 'app/sql'
 DOCS_PATH = 'files'
 FILES_PATH = 'files'
 USATU_PATH = 'static/app'

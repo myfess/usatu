@@ -8,16 +8,12 @@ from django.http import HttpRequest
 from app import consts
 from app import mydb
 from app import auth
-from app.common import get_latin_table, get_default_context, get_ID
+from app.common import get_latin_table, get_default_context, get_id
 
 
 def get_chairs_struct(params, request):
     db = mydb.MyDB()
-    sql = '''
-        SELECT * FROM chairs
-    '''
-
-    rs = db.SqlQuery(sql)
+    rs = db.SqlQuery(db.sql('teachers_chairs'))
     faculties = []
     for r in rs:
         if r['id_parent'] == 0:
@@ -39,15 +35,7 @@ def teachers_list(request):
     context = get_default_context(request)
     context['PAGE_TITLE'] = 'Преподаватели - '
 
-    sql = '''
-       SELECT name, id
-       FROM teachers
-       WHERE allow = 'yes'
-       ORDER BY name
-    '''
-
-    rs = db.SqlQuery(sql)
-
+    rs = db.SqlQuery(db.sql('teachers_list'))
     latin_table = get_latin_table()
 
     chars = []
@@ -94,20 +82,7 @@ def get_teachers_teacher(request, teacher_id=0, page=1, gotocomment=None):
     context = get_default_context(request)
     context['PAGE_TITLE'] = 'Преподаватели - '
     context['comments_page'] = page
-
-    sql = '''
-        SELECT
-            t.*,
-            c.name AS chair_name,
-            c.short_name AS chair_short_name,
-            f.short_name AS fc_short_name
-        FROM teachers AS t
-        LEFT JOIN chairs AS c ON (c.id = t.id_chair)
-        LEFT JOIN chairs AS f ON (f.id = c.id_parent)
-        WHERE t.id = @tid@
-    '''
-
-    ts = db.SqlQuery(sql, {'tid': teacher_id})
+    ts = db.SqlQuery(db.sql('teachers_teacher'), {'tid': teacher_id})
 
     if not ts:
         raise Exception('Такого преподавателя не найдено.')
@@ -177,13 +152,7 @@ def teacher_read(params, request):
     if not params.get('id'):
         raise Exception('Невозможно прочитать преподавателя без идентификатора')
 
-    sql = '''
-        SELECT *
-        FROM teachers
-        WHERE id = @id@
-    '''
-
-    rs = db.SqlQuery(sql, {'id': int(params['id'])})
+    rs = db.SqlQuery(db.sql('teachers_read'), {'id': int(params['id'])})
     if len(rs) == 1:
         return rs[0]
 
@@ -195,13 +164,8 @@ def release_teacher(params, request):
     if not user.is_editor():
         raise Exception('Недостаточно прав чтобы удалить сообщение')
 
-    sql = '''
-        UPDATE teachers
-        SET allow = 'yes'
-        WHERE id = @id@
-    '''
     db = mydb.MyDB()
-    db.SqlQuery(sql, {'id': int(params['id'])}, True)
+    db.SqlQuery(db.sql('teachers_release'), {'id': int(params['id'])}, True)
     return {'result': True}
 
 
@@ -210,13 +174,8 @@ def delete_teacher(params, request):
     if not user.is_editor():
         raise Exception('Недостаточно прав чтобы удалить сообщение')
 
-    sql = '''
-        DELETE
-        FROM teachers
-        WHERE id = @id@
-    '''
     db = mydb.MyDB()
-    db.SqlQuery(sql, {'id': int(params['id'])}, True)
+    db.SqlQuery(db.sql('teachers_delete'), {'id': int(params['id'])}, True)
     return {'result': True}
 
 
@@ -237,16 +196,10 @@ def teacher_write(params, request):
     data['information'] = data['information'] or ''
 
     if teacher_id is None:
-        sql = '''
-            INSERT
-            INTO `teachers` (`id`, `name`, `id_chair`, `subject`, `information`, `fotos`, `allow`)
-            VALUES (@id@, @name@, @id_chair@, @subject@, @information@, @fotos@, @allow@)
-        '''
-
         allow = 'yes' if user.is_editor() else 'no'
-        data['id'] = get_ID()
+        data['id'] = get_id()
         data['allow'] = allow
-        db.SqlQuery(sql, data, True)
+        db.SqlQuery(db.sql('teachers_insert'), data, True)
 
         return {
             'result': True,
@@ -260,20 +213,8 @@ def teacher_write(params, request):
                 'result': False,
                 'teacher_msg': 'Нет прав изменять данные преподователя.'
             }
-
-        sql = '''
-            UPDATE teachers
-            SET
-                name = @name@,
-                id_chair = @id_chair@,
-                subject = @subject@,
-                information = @information@,
-                fotos = @fotos@
-            WHERE id = @id@
-        '''
-
         data['id'] = teacher_id
-        db.SqlQuery(sql, data, True)
+        db.SqlQuery(db.sql('teachers_update'), data, True)
 
         return {
             'result': True,

@@ -2,7 +2,6 @@
 
 from django.shortcuts import render
 
-from app import consts
 from app import mydb
 from app import auth
 from app.common import get_default_context
@@ -21,15 +20,7 @@ def news_mod(request):
             context
         )
 
-    sql = '''
-        SELECT *
-        FROM message
-        WHERE
-            allow = 'no'
-            AND id_parent = 0
-        ORDER BY id DESC
-        LIMIT 10
-    '''
+    sql = db.sql('mod_news')
     rs = db.SqlQuery(sql)
     news = []
     for r in rs:
@@ -57,17 +48,7 @@ def teachers_mod(request):
             context
         )
 
-    sql = '''
-        SELECT
-            t.*,
-            c.name AS chair
-        FROM teachers t
-        LEFT JOIN chairs c ON (c.id = t.id_chair)
-        WHERE allow != 'yes'
-        ORDER BY id DESC
-        LIMIT 10
-    '''
-    context['teachers'] = db.SqlQuery(sql)
+    context['teachers'] = db.SqlQuery(db.sql('mod_teachers'))
     return render(
         request,
         'app/mod/teachers.html',
@@ -77,26 +58,7 @@ def teachers_mod(request):
 
 def get_path_ID(_id):
     db = mydb.MyDB()
-    sql = '''
-        WITH RECURSIVE
-            t AS (
-                SELECT
-                    *, 1 AS level
-                FROM "struct_message"
-                WHERE id = @id@
-
-                UNION
-
-                SELECT
-                    sm.*, (t.level + 1) AS level
-                FROM t
-                INNER JOIN "struct_message" sm ON (sm.id = t.id_parent)
-            )
-
-        SELECT array_agg("RU" ORDER BY level DESC)
-        FROM t
-    '''
-    _list = db.SqlQueryScalar(sql, {'id': _id})
+    _list = db.SqlQueryScalar(db.sql('mod_path'), {'id': _id})
     return ' / '.join(_list)
 
 
@@ -114,16 +76,7 @@ def comments_mod(request):
             context
         )
 
-    _sql = '''
-        SELECT {cols}
-        FROM message m
-        WHERE
-            NOT EXISTS (SELECT 1 FROM comments_mod c WHERE c.comment_id = m.id)
-            AND m.id_parent != 0
-            AND m.allow != 'yes'
-            AND m.allow != 'forum'
-        {orderby}
-    '''
+    _sql = db.sql('mod_comments')
 
     sql = _sql.format(
         cols='count(*) cnt',

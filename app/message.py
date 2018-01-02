@@ -12,7 +12,7 @@ from django.utils.html import escape
 from app import mydb
 from app import auth
 from app import consts
-from app.common import get_default_context, get_ID, get_client_ip
+from app.common import get_default_context, get_id, get_client_ip
 from app.mf_code import mf_code
 from app.user import user_string
 
@@ -29,35 +29,21 @@ def get_message_preview(params, request):
 
 def release_message(params, request):
     user = auth.MyUser(request)
-
     mid = int(params['id'])
-
     if not user.is_editor():
         raise Exception('Недостаточно прав чтобы удалить сообщение')
-
-    sql = '''
-        UPDATE message
-        SET allow = 'yes'
-        WHERE id = @id@
-    '''
     db = mydb.MyDB()
-    db.SqlQuery(sql, {'id': mid}, True)
+    db.SqlQuery(db.sql('message_release'), {'id': mid}, True)
     return {'result': True, 'message_id': mid}
 
 
 def delete_message(params, request):
     user = auth.MyUser(request)
-
     mid = int(params['id'])
-
     if not user.is_editor():
         raise Exception('Недостаточно прав чтобы удалить сообщение')
-
-    sql = '''
-        DELETE FROM message WHERE id = @id@
-    '''
     db = mydb.MyDB()
-    db.SqlQuery(sql, {'id': mid}, True)
+    db.SqlQuery(db.sql('message_delete'), {'id': mid}, True)
     return {'result': True, 'message_id': mid}
 
 
@@ -88,18 +74,7 @@ def get_message(params, request):
     if not user.is_editor():
         raise Exception('У вас нет прав изменять это сообщение.')
 
-    sql = '''
-        SELECT
-            id,
-            id_parent,
-            title,
-            text,
-            (attach = 'yes') AS attach
-        FROM message
-        WHERE id = @id@
-    '''
-
-    rs = db.SqlQuery(sql, {'id': mid})
+    rs = db.SqlQuery(db.sql('message_get'), {'id': mid})
     if len(rs) != 1:
         raise Exception('Сообщение не найдено')
 
@@ -114,29 +89,7 @@ def get_message(params, request):
 
 def get_message_top_category(cid):
     db = mydb.MyDB()
-    sql = '''
-        WITH RECURSIVE
-            t AS (
-                SELECT
-                    *, 1 AS level
-                FROM "struct_message"
-                WHERE id = @id@
-
-                UNION
-
-                SELECT
-                    sm.*, (t.level + 1) AS level
-                FROM t
-                INNER JOIN "struct_message" sm ON (sm.id = t.id_parent)
-            )
-
-        SELECT "EN" AS en, "RU" AS ru
-        FROM t
-        ORDER BY level DESC
-        LIMIT 1
-    '''
-
-    rs = db.SqlQuery(sql, {'id': cid})
+    rs = db.SqlQuery(db.sql('message_top_category'), {'id': cid})
     return {
         'en': rs[0]['en'],
         'ru': rs[0]['ru']
@@ -148,14 +101,7 @@ def full_message(request, mid=None, page=1, gotocomment=None):
 
     db = mydb.MyDB()
     context = get_default_context(request)
-
-    sql = '''
-        SELECT *
-        FROM message m
-        WHERE m.id = @mid@
-    '''
-
-    rs = db.SqlQuery(sql, {'mid': int(mid)})
+    rs = db.SqlQuery(db.sql('message_full'), {'mid': int(mid)})
 
     if len(rs) != 1:
         return render(
@@ -197,16 +143,7 @@ def message_write(
     attach_str = 'yes' if attach else 'no'
 
     if message_id:
-        sql = '''
-            UPDATE message
-            SET
-                text = @text@,
-                title = @title@,
-                attach = @attach@
-            WHERE id = @id@
-        '''
-
-        db.SqlQuery(sql, {
+        db.SqlQuery(db.sql('message_update'), {
             'id': message_id,
             'text': text,
             'title': title,
@@ -214,16 +151,7 @@ def message_write(
         }, True)
 
         if board_theme:
-            sql = '''
-                UPDATE board_theme
-                SET title = @title@
-                WHERE id = (
-                    SELECT id_parent
-                    FROM message
-                    WHERE id = @id@)
-            '''
-
-            db.SqlQuery(sql, {
+            db.SqlQuery(db.sql('message_update_board'), {
                 'id': message_id,
                 'title': title
             }, True)
@@ -231,14 +159,9 @@ def message_write(
         dt_msg = int(time.time())
 
         if board_theme:
-            theme_id = get_ID()
+            theme_id = get_id()
             id_parent = theme_id
-            sql = '''
-                INSERT INTO board_theme (id, title, author, dt, dt_last_msg, ipb_id)
-                VALUES (@id@, @title@, @author@, @dt@, @dt_last_msg@, @ipb_id@)
-            '''
-
-            db.SqlQuery(sql, {
+            db.SqlQuery(db.sql('message_insert_board'), {
                 'id': theme_id,
                 'title': title,
                 'author': user.username,
@@ -247,19 +170,8 @@ def message_write(
                 'ipb_id': None
             }, True)
 
-        sql = '''
-            INSERT INTO message (
-                "id", "id_parent", "title", "time", "text",
-                "author", "category", "allow", "attach", "ip"
-            )
-            VALUES (
-                @id@, @id_parent@, @title@, @time@, @text@,
-                @author@, @category@, @allow@, @attach@, @ip@
-            )
-        '''
-
-        mid = get_ID()
-        db.SqlQuery(sql, {
+        mid = get_id()
+        db.SqlQuery(db.sql('message_insert'), {
             'id': mid,
             'id_parent': (0 if id_parent is None else int(id_parent)),
             'title': title,
@@ -274,12 +186,7 @@ def message_write(
 
         if id_parent:
             # Пробуем обновить дату последнего сообщения на форуме
-            sql = '''
-                UPDATE board_theme
-                SET dt_last_msg = @dt_last_msg@
-                WHERE id = @id@
-            '''
-            db.SqlQuery(sql, {
+            db.SqlQuery(db.sql('message_update_board_time'), {
                 'id': int(id_parent),
                 'dt_last_msg': dt_msg
             }, True)
@@ -289,22 +196,7 @@ def message_write(
 
 def send_notification_mail(_id):
     db = mydb.MyDB()
-
-    sql = '''
-        SELECT
-            m1.author AS new_author,
-            m2.author AS old_author,
-            m1.text AS new_text,
-            m2.text AS old_text,
-            m2.id AS old_id,
-            m.email
-        FROM message m1
-        INNER JOIN message m2 ON (m2.id_parent != 0 AND m2.id = m1.id_parent)
-        LEFT JOIN members m ON (m.name = m2.author)
-        WHERE m1.id = @id@
-    '''
-
-    rs = db.SqlQuery(sql, {'id': _id})
+    rs = db.SqlQuery(db.sql('message_notification_mail'), {'id': _id})
     if len(rs) != 1:
         return
     m = rs[0]
@@ -346,14 +238,7 @@ def get_url_comment(comment_id):
     photos = db.SqlQuery('SELECT * FROM foto WHERE id = @id@', {'id': p_id})
     teachers = db.SqlQuery('SELECT * FROM teachers WHERE id = @id@', {'id': p_id})
 
-    sql = '''
-        SELECT *
-        FROM message
-        WHERE
-            id_parent = @p_id@
-            AND time < @time@
-    '''
-    comments = db.SqlQuery(sql, {'p_id': p_id, 'time': _time})
+    comments = db.SqlQuery(db.sql('message_comments_before'), {'p_id': p_id, 'time': _time})
     page = int(len(comments) // consts.COUNT_COMMENTS_PAGE) + 1
 
     r = {'type': '', 'url': ''}
@@ -366,21 +251,13 @@ def get_url_comment(comment_id):
 
     if photos:
         u_id = photos[0]['user_id']
-        sql = '''
-            SELECT *
-            FROM foto
-            WHERE user_id = @user_id@
-            ORDER BY time DESC
-        '''
-        user_photos = db.SqlQuery(sql, {'user_id': u_id})
-        j = 0
-        for p in user_photos:
-            if p['id'] == p_id:
-                break
-            j += 1
+        user_photos = db.SqlQueryScalar(
+            db.sql('message_photos_before'),
+            {'user_id': u_id, 'id': p_id}
+        )
         r['type'] = 'photo'
         r['url'] = 'photos/{}/{}/new/-1/all/1/{}/gotocomment/{}/'.format(
-            u_id, (j + 1), page, comment_id)
+            u_id, user_photos, page, comment_id)
 
     return r
 
@@ -388,12 +265,12 @@ def get_url_comment(comment_id):
 def get_main_parent_id(comment_id):
     db = mydb.MyDB()
 
-    c = db.SqlQuery('SELECT id_parent, id FROM message WHERE id = @id@', {'id': comment_id})
+    c = db.SqlQuery(db.sql('message_read'), {'id': comment_id})
 
     if len(c) != 1:
         return -1
 
-    p = db.SqlQuery('SELECT id FROM message WHERE id = @id@', {'id': c[0]['id_parent']})
+    p = db.SqlQuery(db.sql('message_read'), {'id': c[0]['id_parent']})
 
     if len(p) == 1:
         return get_main_parent_id(p[0]['id'])
@@ -442,36 +319,12 @@ def message_navigation(request, mode, _id='null'):
     )
 
 
-def get_count_comments(_id):
-    """ Определение количества комментариев у новости """
-
-    db = mydb.MyDB()
-    _count = 0
-    level = 0
-    ids = [str(_id)]
-    while ids and level < 10:
-        # Максимальная глубина комментариев - 10
-        # TODO: вынести в настройки
-        level += 1
-        sql = '''
-            SELECT id
-            FROM message
-            WHERE id_parent IN ({})
-        '''.format(', '.join(ids))
-        rs = db.SqlQuery(sql)
-        ids = []
-        for r in rs:
-            ids.append(str(r['id']))
-        _count += len(rs)
-    return _count
-
-
 def get_message_text(request, m, is_comment=False):
     """
         Построение ленты нвостей
         Построение новости когда её просматриваешь
     """
-
+    db = mydb.MyDB()
     user = auth.MyUser(request)
 
     _text = m['text'].replace('\n', '[br]')
@@ -481,7 +334,10 @@ def get_message_text(request, m, is_comment=False):
     m['message_text'] = _text
     m['is_comment'] = is_comment
     if not is_comment:
-        m['count_comment'] = get_count_comments(m['id'])
+        m['count_comment'] = db.SqlQueryScalar(
+            db.sql('message_comments_count'),
+            {'id': m['id']}
+        )
     m['message_author'] = user_string(m['author'])
     m['message_id'] = m['id'] if m.get('id') else ''
     m['message_time'] = time.strftime('%Y-%m-%d %H:%M', time.localtime(m['time']))
@@ -517,14 +373,7 @@ def get_main_EN_from_ID(ID):
 
     try:
         ID = int(ID)
-
-        sql = '''
-            SELECT "EN", id_parent
-            FROM struct_message
-            WHERE struct_message.id = @id@
-        '''
-
-        rs = db.SqlQuery(sql, {'id': ID})
+        rs = db.SqlQuery(db.sql('message_category'), {'id': ID})
         if not rs:
             return 'ERROR'
         r = rs[0]

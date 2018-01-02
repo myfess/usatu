@@ -52,19 +52,8 @@ def get_user_by(_id, login):
     else:
         return r
 
-    sql = '''
-        SELECT
-            id,
-            name,
-            email,
-            avatar,
-            password
-        FROM members
-        WHERE
-            {where}
-    '''.format(where=where)
-
     db = mydb.MyDB()
+    sql = db.sql('user_get').format(where=where)
     users = db.SqlQuery(sql, p)
     if users:
         return users[0]

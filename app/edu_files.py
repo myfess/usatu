@@ -1,38 +1,19 @@
 # -*- coding: utf-8 -*-
 
 import time
-import json
 
 from django.shortcuts import render
 
 from app import mydb
 from app import auth
 from app import consts
-from app.common import get_default_context, epoch_to_date_str, get_ID
+from app.common import get_default_context, epoch_to_date_str, get_id
 from app.common import get_records_set_json, json_to_record, json_dumps
 
 
 def edu_files_types_list():
     db = mydb.MyDB()
-
-    sql = '''
-        SELECT
-            ft.id,
-            ft.type
-        FROM files_types ft
-        WHERE
-        EXISTS (
-            SELECT 1
-            FROM files
-            WHERE
-            files.type = ft.id::text
-            AND files.allow = 'yes'
-        )
-        ORDER BY ft.type ASC
-    '''
-
-    rs = db.SqlQuery(sql)
-
+    rs = db.SqlQuery(db.sql('edu_files_types_list'))
     d = [[r['id'], r['type']] for r in rs]
     s = [
         {'n': 'id', 't': 'Число целое'},
@@ -58,23 +39,7 @@ def edu_files_list(params):
         ps['type'] = type_id
 
     if subject_id:
-        sql = '''
-            SELECT
-                files.id,
-                files.ext,
-                files.description,
-                files_types.type,
-                files.size,
-                files.time,
-                files.author
-            FROM files
-            LEFT JOIN files_types ON (files_types.id = files.type::int)
-            WHERE
-                files.allow = 'yes'
-                AND files.subject = (@subject@)::text
-                {cond}
-            ORDER BY files.time DESC
-        '''.format(
+        sql = db.sql('edu_files_list_with_subject').format(
             cond=cond
         )
 
@@ -100,22 +65,8 @@ def edu_files_list(params):
         ]
 
     else:
-        sql = '''
-            SELECT
-                fs.id,
-                fs.subject,
-                count(*) AS _count
-            FROM files f
-            LEFT JOIN files_subjects fs ON (fs.id = f.subject::int)
-            WHERE
-                f.allow = 'yes'
-            GROUP BY fs.id, fs.subject
-            ORDER BY subject
-        '''
-        rs = db.SqlQuery(sql)
-
+        rs = db.SqlQuery(db.sql('edu_files_subjects_list'))
         d = [[r['id'], r['subject'], r['_count']] for r in rs]
-
         s = [
             {'n': 'id', 't': 'Число целое'},
             {'n': 'subject', 't': 'Строка'},
@@ -126,24 +77,8 @@ def edu_files_list(params):
 
 def edu_files_sub_list(params):
     db = mydb.MyDB()
-
-    sql = '''
-        SELECT
-            f.type AS id,
-            ft.type
-        FROM files f
-        LEFT JOIN files_types ft ON (ft.id = f.type::int)
-        WHERE
-            f.subject = (@subject@)::text
-            AND f.allow = 'yes'
-        GROUP BY f.type, ft.type
-        ORDER BY ft.type
-    '''
-
-    rs = db.SqlQuery(sql, {'subject': params['subject_id']})
-
+    rs = db.SqlQuery(db.sql('edu_files_subject_types_list'), {'subject': params['subject_id']})
     d = [[r['id'], r['type']] for r in rs]
-
     s = [
         {'n': 'id', 't': 'Число целое'},
         {'n': 'type', 't': 'Строка'},
@@ -166,12 +101,10 @@ def get_files_for_edu_main(request, subject=None, type_id=None):
         context['SUBJECT_ID'] = 'null'
         context['TYPE_ID'] = 'null'
     elif not type_id:
-        sql = '''
-            SELECT subject
-            FROM files_subjects
-            WHERE id = @id@
-        '''
-        subject_name = db.SqlQueryScalar(sql, {'id': int(subject)})
+        subject_name = db.SqlQueryScalar(
+            db.sql('edu_files_subject_get_by_id'),
+            {'id': int(subject)}
+        )
         bread_crumbs.append({'text': 'Файлы для учёбы', 'link': '/files_for_edu/'})
         bread_crumbs.append({'text': subject_name, 'last': True})
         context['BREAD_CRUMBS'] = json_dumps(bread_crumbs)
@@ -179,12 +112,7 @@ def get_files_for_edu_main(request, subject=None, type_id=None):
         context['TYPE_ID'] = 'null'
         context['RIGHT_MENU'] = True
     else:
-        sql = '''
-            SELECT
-                ( SELECT subject FROM files_subjects WHERE id = @sid@ ) AS subject,
-                ( SELECT type FROM files_types WHERE id = @tid@ ) AS type
-        '''
-        names = db.SqlQuery(sql, {
+        names = db.SqlQuery(db.sql('edu_files_subject_type_get'), {
             'sid': int(subject),
             'tid': int(type_id)
         })
@@ -260,7 +188,7 @@ def get_files_for_edu_add_file(request):
 
     if is_uploaded_file(upload_tmp_name):
         upload_result['was_upload'] = True
-        ext = GetExt(['.zip', '.rar'], upload_name)
+        ext = get_ext(['.zip', '.rar'], upload_name)
         if ext == -1:
             upload_result['was_bad_ext'] = True
         else:
@@ -274,17 +202,10 @@ def get_files_for_edu_add_file(request):
 
             if not upload_result['no_subject'] and not upload_result['no_type']:
                 ext = ext.lower()
-                ID = get_ID()
+                ID = get_id()
                 path = consts.DOCS_PATH + ID + ext
 
                 if copy(upload_tmp_name, path):
-                    sql = '''
-                        INSERT INTO files VALUES(
-                            @id@, @ext@, @subject_id@, @description@, @type_id@,
-                            @size@, @author@, @uploader@, @allow@, @time@
-                        )
-                    '''
-
                     ps = {
                         'id': ID,
                         'ext': ext,
@@ -298,7 +219,7 @@ def get_files_for_edu_add_file(request):
                         'time': int(time.time())
                     }
 
-                    db.SqlQuery(sql, ps, True)
+                    db.SqlQuery(db.sql('edu_files_insert'), ps, True)
                     inserted = True
                     upload_result['was_add'] = user.is_editor()
                     upload_result['was_add_mod'] = not user.is_editor()
@@ -332,7 +253,7 @@ def copy(p1, p2):
     return False
 
 
-def GetExt(exts, name):
+def get_ext(exts, name):
     """
         Args:
             exts - массив допустимых расширений в нижнем регистре,
@@ -356,22 +277,11 @@ def get_subject(subject_id, subject_text):
     if subject_text == '':
         return None
 
-    sql = '''
-        SELECT id
-        FROM files_subjects
-        WHERE subject = @subject@
-    '''
-
-    rs = db.SqlQuery(sql, {'subject': subject_text})
-    if len(rs) == 1:
+    rs = db.SqlQuery(db.sql('edu_files_subject_get'), {'subject': subject_text})
+    if rs:
         return int(rs[0]['id'])
 
-    sql = '''
-        INSERT INTO files_subjects (subject)
-        VALUES (@subject@)
-        RETURNING "id"
-    '''
-    last_id = db.SqlQueryScalar(sql, {'subject': subject_text})
+    last_id = db.SqlQueryScalar(db.sql('edu_files_subject_insert'), {'subject': subject_text})
     return last_id
 
 
@@ -383,20 +293,9 @@ def get_type(type_id, type_text):
     if type_text == '':
         return None
 
-    sql = '''
-        SELECT id
-        FROM files_types
-        WHERE type = @type@
-    '''
-
-    rs = db.SqlQuery(sql, {'type': type_text})
-    if len(rs) == 1:
+    rs = db.SqlQuery(db.sql('edu_files_type_get'), {'type': type_text})
+    if rs:
         return int(rs[0]['id'])
 
-    sql = '''
-        INSERT INTO files_types (type)
-        VALUES (@type@)
-        RETURNING "id"
-    '''
-    last_id = db.SqlQuery(sql, {'type': type_text})
+    last_id = db.SqlQuery(db.sql('edu_files_type_insert'), {'type': type_text})
     return last_id

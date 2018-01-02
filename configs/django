@@ -20,6 +20,7 @@ server {
         alias /home/django/django_project/app/static;
     }
 
+
     location /static/files {
         alias /home/django/django_project/files/static/files;
     }

@@ -14,47 +14,15 @@ def get_comments(params, request):
 
     offset = (page - 1) * consts.COUNT_COMMENTS_PAGE
 
-    sql = '''
-        SELECT
-            message.*,
-            m.avatar,
-            0 AS level
-        FROM message
-        LEFT JOIN members m ON (m.name = message.author)
-        WHERE id_parent = @id_parent@
-        ORDER BY time
-        LIMIT @page_size@
-        OFFSET @offset@
-    '''
-
     db = mydb.MyDB()
-    rs = db.SqlQuery(sql, {
-        'id_parent': id_parent,
-        'page_size': consts.COUNT_COMMENTS_PAGE,
-        'offset': offset
-    })
-
-    level = 0
-    ids = get_msg_ids(rs)
-    while ids and level < 10:
-        # Максимальная глубина комментариев - 10
-        # TODO: вынести в настройки
-        level += 1
-        ids_str = ', '.join(ids)
-        sql = '''
-            SELECT
-                message.*,
-                m.avatar,
-                @level@ AS level
-            FROM message
-            LEFT JOIN members m ON (m.name = message.author)
-            WHERE id_parent IN ({ids})
-            ORDER BY time
-        '''.format(ids=ids_str)
-
-        rs_childs = db.SqlQuery(sql, {'level': level})
-        ids = get_msg_ids(rs_childs)
-        add_msg_children(rs, rs_childs)
+    rs = db.SqlQuery(
+        db.sql('comments_get'),
+        {
+            'id_parent': id_parent,
+            'page_size': consts.COUNT_COMMENTS_PAGE,
+            'offset': offset
+        }
+    )
 
     get_safe_msg_text(rs)
 
@@ -70,13 +38,8 @@ def get_comments(params, request):
 
 
 def get_msg_pages_count(id_parent):
-    sql = '''
-        SELECT count(*)
-        FROM message
-        WHERE id_parent = @id_parent@
-    '''
     db = mydb.MyDB()
-    comments_count = db.SqlQueryScalar(sql, {'id_parent': id_parent})
+    comments_count = db.SqlQueryScalar(db.sql('comments_count'), {'id_parent': id_parent})
     pages_count = 0
     if comments_count % consts.COUNT_COMMENTS_PAGE != 0:
         pages_count = (
@@ -86,21 +49,6 @@ def get_msg_pages_count(id_parent):
     else:
         pages_count = comments_count // consts.COUNT_COMMENTS_PAGE
     return pages_count
-
-
-def add_msg_children(rs, rs_childs):
-    """ Распределяем детей по родителям """
-
-    for c in rs_childs:
-        for i in range(len(rs) + 1):
-            if (rs[i]['id'] == c['id_parent']
-                    and (i == len(rs) - 1 or rs[i + 1]['id'] != c['id_parent'])):
-                rs.insert(i + 1, c)
-                break
-
-
-def get_msg_ids(rs):
-    return [str(r['id']) for r in rs]
 
 
 def get_safe_msg_text(rs):

@@ -18,32 +18,10 @@ def message(request, page=1):
     start = (page - 1) * consts.COUNT_MESSAGES_PAGE
     cats = get_news_cats('news')
 
-    sql = '''
-        SELECT count(*)
-        FROM message
-        WHERE
-            id_parent = 0
-            AND allow = 'yes'
-            AND category = ANY(ARRAY[{cats}])
-    '''.format(cats=cats)
-
+    sql = db.sql('news_count').format(cats=cats)
     count_messages = rs = db.SqlQueryScalar(sql, {'cats': cats})
 
-    sql = '''
-        SELECT
-            *
-        FROM message
-        WHERE
-            id_parent = 0
-            AND allow = 'yes'
-            AND category = ANY(ARRAY[{cats}])
-        ORDER BY
-            attach = 'yes' DESC,
-            time DESC
-        LIMIT @count@
-        OFFSET @start@
-    '''.format(cats=cats)
-
+    sql = db.sql('news_list').format(cats=cats)
     rs = db.SqlQuery(sql, {
         'start': start,
         'count': consts.COUNT_MESSAGES_PAGE,
@@ -67,36 +45,12 @@ def message(request, page=1):
 
 def get_categoty_id(name):
     db = mydb.MyDB()
-    sql = '''
-        SELECT "id"
-        FROM struct_message
-        WHERE "EN" = @name@
-    '''
-    return db.SqlQueryScalar(sql, {'name': name})
+    return db.SqlQueryScalar(db.sql('news_categoty_by_name'), {'name': name})
 
 
 def get_news_cats(name):
     db = mydb.MyDB()
-    sql = '''
-        WITH RECURSIVE
-            t AS (
-                SELECT
-                    id, id_parent
-                FROM "struct_message"
-                WHERE "EN" = @name@
-
-                UNION
-
-                SELECT
-                    sm.id, sm.id_parent
-                FROM t
-                INNER JOIN "struct_message" sm ON (sm.id_parent = t.id)
-            )
-
-        SELECT array_agg(id::text) FROM t
-    '''
-
-    ids = db.SqlQueryScalar(sql, {'name': name})
+    ids = db.SqlQueryScalar(db.sql('news_cats'), {'name': name})
     return ', '.join([''' '{}' '''.format(_id) for _id in ids])
 
 

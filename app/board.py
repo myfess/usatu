@@ -10,16 +10,7 @@ from app.common import get_default_context, get_records_set_json, json_dumps
 
 def board_theme_list():
     db = mydb.MyDB()
-    sql = '''
-        SELECT
-            *,
-            (SELECT count(*) FROM message WHERE id_parent = bt.id) cnt
-        FROM board_theme bt
-        ORDER BY dt_last_msg DESC
-        LIMIT 40
-    '''
-
-    rs = db.SqlQuery(sql)
+    rs = db.SqlQuery(db.sql('board_theme_list'))
     d = []
     for r in rs:
         d.append([r['id'], r['title'], r['dt_last_msg'], get_pages_count(r['cnt'])])
@@ -63,19 +54,7 @@ def get_board_theme(request):
 def get_board_theme_comments(request, theme_id, page=1):
     context = get_default_context(request)
     db = mydb.MyDB()
-
-    sql = '''
-        SELECT COALESCE(
-            (
-                SELECT title
-                FROM board_theme
-                WHERE id = @id@
-            ),
-            ''
-        )
-    '''
-
-    title = db.SqlQueryScalar(sql, {'id': theme_id})
+    title = db.SqlQueryScalar(db.sql('board_theme_title'), {'id': theme_id})
 
     bread_crumbs = [{'text': consts.NAV_CAPTION, 'link': '/'}]
     bread_crumbs.append({'text': 'Форум', 'link': '/board/'})
