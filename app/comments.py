@@ -6,7 +6,7 @@ from app.message import safe_msg_text
 from app.message import message_write
 
 
-def get_comments(params):
+def get_comments(params, request):
     id_parent = int(params['id'])
     page = params.get('page', 1)
     if page is None or page < 1:

@@ -8,7 +8,7 @@ from app import mydb
 from app.user import get_avatar, get_user_by
 
 
-def sign_in(params):
+def sign_in(params, request):
     login = params['login']
     password = params['password']
     res = auth_sign_in(login, password)
@@ -20,7 +20,7 @@ def sign_in(params):
     return result
 
 
-def sign_out(request):
+def sign_out(params, request):
     sid = request.COOKIES.get('usatu_auth', '')
 
     res = auth_sign_out(sid)

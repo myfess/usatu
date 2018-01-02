@@ -64,7 +64,7 @@
                         path = path.substr(0, path.length - 4);
                     }
                     path = path + suffix;
-                    // Заменяем путь чтобы грузить css с usatu.com
+                    // Заменяем путь чтобы грузить css с основного сайта
                     path = path.replace(conf.usatu.wsRoot, conf.usatu.usatusbis);
                     cssAPI.load(path, require, load, conf);
                 }

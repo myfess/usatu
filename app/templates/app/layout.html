@@ -9,30 +9,30 @@
       <meta name='yandex-verification' content='5a9ac01d77f4e0fc' />
 
       <link href="{{ USATU_PATH }}/common/style.css" type="text/css" rel=stylesheet>
-      <link href="https://cdn.jsdelivr.net/npm/@angular/material@2.0.0-beta.7/prebuilt-themes/indigo-pink.css" rel="stylesheet">
+      <link
+        href="https://cdn.jsdelivr.net/npm/@angular/material@2.0.0-beta.7/prebuilt-themes/indigo-pink.css"
+        rel="stylesheet" />
+
+      <script src="https://cdn.jsdelivr.net/npm/jquery@2.2.2/dist/jquery.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/jquery.cookie@1.4.1/jquery.cookie.js"></script>
 
       {% if ES5  %}
-        <script src="node_modules/jquery/dist/jquery.min.js"></script>
-        <script src="node_modules/rxjs/bundles/Rx.min.js"></script>
-        <script src="node_modules/core-js/client/shim.min.js"></script>
-        <script src="node_modules/zone.js/dist/zone.min.js"></script>
-        <script src="node_modules/systemjs/dist/system.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/rxjs@5.0.1/bundles/Rx.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/core-js@2.4.1/client/shim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/zone.js@0.8.12/dist/zone.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/systemjs@0.19.39/dist/system.js"></script>
         <script src="{{ USATU_PATH }}/systemjs.config.js"></script>
       {% endif %}
 
       {% if TYPESCRIPT  %}
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/jquery.cookie@1.4.1/jquery.cookie.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/rxjs/5.0.1/Rx.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/shim.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/zone.js/0.8.12/zone.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/systemjs/0.19.39/system.src.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/systemjs/0.19.39/system.src.js">
+        </script>
         <script src="{{ USATU_PATH }}/systemjs-dev.config.js"></script>
       {% endif %}
 
-      <!--
-      <script src='https://www.google.com/recaptcha/api.js'></script>
-      -->
   </head>
 
   <body bottomMargin=0 leftMargin=0 topMargin=0 rightMargin=0 marginwidth="0" marginheight="0">
@@ -78,7 +78,9 @@
               <td valign="top" style="width: 190px; background-color: #f2f0f1; padding: 0px;">
                 {% include "app/left_menu.html" %}
               </td>
-              <td valign="top" style="width: 560px; height: 100%; background-color: #f2f0f1; padding: 0px;">
+              <td
+                valign="top"
+                style="width: 560px; height: 100%; background-color: #f2f0f1; padding: 0px;">
                 {% block content %}{% endblock %}
               </td>
               <td valign=top style="width: 190px; background-color: #f2f0f1; padding: 0px;">

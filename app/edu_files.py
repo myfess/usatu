@@ -9,7 +9,7 @@ from app import mydb
 from app import auth
 from app import consts
 from app.common import get_default_context, epoch_to_date_str, get_ID
-from app.common import get_records_set_json, json_to_record
+from app.common import get_records_set_json, json_to_record, json_dumps
 
 
 def edu_files_types_list():
@@ -157,12 +157,12 @@ def get_files_for_edu_main(request, subject=None, type_id=None):
 
     #  Заполняем шаблон правильным случаем, в зависимости от переданных параметров
 
-    bread_crumbs = [{'text': 'USATU.com', 'link': '/'}]
+    bread_crumbs = [{'text': consts.NAV_CAPTION, 'link': '/'}]
     context['RIGHT_MENU'] = False
 
     if not subject:
         bread_crumbs.append({'text': 'Файлы для учёбы', 'last': True})
-        context['BREAD_CRUMBS'] = json.dumps(bread_crumbs)
+        context['BREAD_CRUMBS'] = json_dumps(bread_crumbs)
         context['SUBJECT_ID'] = 'null'
         context['TYPE_ID'] = 'null'
     elif not type_id:
@@ -174,7 +174,7 @@ def get_files_for_edu_main(request, subject=None, type_id=None):
         subject_name = db.SqlQueryScalar(sql, {'id': int(subject)})
         bread_crumbs.append({'text': 'Файлы для учёбы', 'link': '/files_for_edu/'})
         bread_crumbs.append({'text': subject_name, 'last': True})
-        context['BREAD_CRUMBS'] = json.dumps(bread_crumbs)
+        context['BREAD_CRUMBS'] = json_dumps(bread_crumbs)
         context['SUBJECT_ID'] = int(subject)
         context['TYPE_ID'] = 'null'
         context['RIGHT_MENU'] = True
@@ -196,7 +196,7 @@ def get_files_for_edu_main(request, subject=None, type_id=None):
         })
         bread_crumbs.append({'text': names[0]['type'], 'last': True})
 
-        context['BREAD_CRUMBS'] = json.dumps(bread_crumbs)
+        context['BREAD_CRUMBS'] = json_dumps(bread_crumbs)
         context['SUBJECT_ID'] = int(subject)
         context['TYPE_ID'] = int(type_id)
 
@@ -214,11 +214,11 @@ def get_files_for_edu_add_file(request):
     user = auth.MyUser(request)
 
     bread_crumbs = [
-        {'text': 'USATU.com', 'link': '/'},
+        {'text': consts.NAV_CAPTION, 'link': '/'},
         {'text': 'Файлы для учёбы', 'link': '/files_for_edu/'},
         {'text': 'Добавить свой файл', 'last': True}
     ]
-    context['BREAD_CRUMBS'] = json.dumps(bread_crumbs)
+    context['BREAD_CRUMBS'] = json_dumps(bread_crumbs)
 
     description = request.POST.get('ft_description', '')
     type_id2 = int(request.POST.get('fd_type', -1))
@@ -231,7 +231,7 @@ def get_files_for_edu_add_file(request):
     settings = {}
 
     if not submit_upload:
-        context['FILE_SETTINGS'] = json.dumps(settings)
+        context['FILE_SETTINGS'] = json_dumps(settings)
         return render(
             request,
             'app/files_for_edu/add_file.html',
@@ -314,7 +314,7 @@ def get_files_for_edu_add_file(request):
             settings['subject_id'] = int(subject)
             settings['type_id'] = int(type_id2)
 
-    context['FILE_SETTINGS'] = json.dumps(settings)
+    context['FILE_SETTINGS'] = json_dumps(settings)
     return render(
         request,
         'app/files_for_edu/add_file.html',

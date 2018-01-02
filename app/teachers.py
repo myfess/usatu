@@ -11,7 +11,7 @@ from app import auth
 from app.common import get_latin_table, get_default_context, get_ID
 
 
-def get_chairs_struct():
+def get_chairs_struct(params, request):
     db = mydb.MyDB()
     sql = '''
         SELECT * FROM chairs
@@ -133,7 +133,7 @@ def get_teacher_photos(teacher_id):
 
     from django.conf  import settings
     _root = getattr(settings, 'BASE_DIR', os.getcwd())
-    full_path = os.path.join(_root, consts.APP_ROOT_PATH, consts.TEACHERS_PHOTO_PATH)
+    full_path = os.path.join(_root, consts.FILES_PATH, consts.TEACHERS_PHOTO_PATH)
     full_path = os.path.abspath(full_path)
     files = [f for f in os.listdir(full_path) if os.path.isfile(os.path.join(full_path, f))]
 
@@ -172,7 +172,7 @@ def get_teacher_photos(teacher_id):
     return res
 
 
-def teacher_read(params):
+def teacher_read(params, request):
     db = mydb.MyDB()
     if not params.get('id'):
         raise Exception('Невозможно прочитать преподавателя без идентификатора')

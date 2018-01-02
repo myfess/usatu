@@ -23,7 +23,7 @@ def safe_msg_text(t):
     return mf_code(t)
 
 
-def get_message_preview(params):
+def get_message_preview(params, request):
     return {'preview': safe_msg_text(params['text'])}
 
 
@@ -328,7 +328,7 @@ def send_notification_mail(_id):
         # header = (
         #     'MIME-Version: 1.0\r\n'
         #     'Content-Type: text/html; charset="utf-8"\r\n'
-        #     'From: USATU.com <notify@usatu.com>\r\n'
+        #     'From: consts.NAV_CAPTION <notify@consts.DOMEN>\r\n'
         # )
         # Отправляем запрос на godaddy
         # r = mail(_email, subject, $tpl->GetText(), header)
@@ -506,7 +506,8 @@ def verify_captcha(request, g_recaptcha_response):
     url = 'https://www.google.com/recaptcha/api/siteverify'
     data = urllib.parse.urlencode(post_data).encode('utf-8')
     req = urllib.request.Request(url)
-    res = urllib.request.urlopen(req, data=data).read()
+    response = urllib.request.urlopen(req, data=data)
+    res = response.read().decode('utf-8')
     recaptcha_response = json.loads(res)
     return recaptcha_response['success']
 

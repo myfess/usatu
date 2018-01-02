@@ -7,12 +7,12 @@ class MyDB:
     def __init__(self):
         self.cursor = connections['default'].cursor()
 
-    def _SqlQuery(self, sql, no_result=False):
+    def _SqlQuery(self, sql, params, no_result=False):
         try:
             if not sql:
                 return []
 
-            self.cursor.execute(sql)
+            self.cursor.execute(sql, params)
 
             if no_result:
                 #self.cursor.commit()
@@ -43,18 +43,9 @@ class MyDB:
     def SqlQuery(self, sql, params=None, no_result=False):
         params = params if params else {}
 
-        for key, value in params.items():
-            if value is None:
-                sql = sql.replace('@' + key + '@', 'NULL')
-            elif isinstance(value, str):
-                sql = sql.replace('@' + key + '@', "'" + myescape(value) + "'")
-            elif isinstance(value, bool):
-                v = 'TRUE' if value else 'FALSE'
-                sql = sql.replace('@' + key + '@', v)
-            else:
-                sql = sql.replace('@' + key + '@', str(int(value)))
-
-        return self._SqlQuery(sql, no_result)
+        for key, _ in params.items():
+            sql = sql.replace('@' + key + '@', '%(' + key + ')s')
+        return self._SqlQuery(sql, params, no_result)
 
 
 def myescape(s):

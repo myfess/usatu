@@ -2,6 +2,7 @@
 
 """ Набор общих функций """
 
+import json
 import time
 
 from django.utils.safestring import mark_safe
@@ -48,7 +49,10 @@ def get_default_context(request):
         'USER_LOGIN': user.username,
         'AVATAR': mark_safe("'{}'".format(user.avatar)) if user.avatar else 'null',
         'USER_ID': user.user_id,
-        'COMMENT_ID': None
+        'COMMENT_ID': None,
+        'NAV_CAPTION': consts.NAV_CAPTION,
+        'DOMEN': consts.DOMEN,
+        'OLD_SITE_PROXY': consts.OLD_SITE_PROXY
     }
     return context
 
@@ -101,3 +105,7 @@ def json_to_record(rec):
 
 def epoch_to_date_str(epoch):
     return time.strftime('%Y-%m-%d', time.localtime(epoch))
+
+
+def json_dumps(d):
+    return json.dumps(d, ensure_ascii=False)

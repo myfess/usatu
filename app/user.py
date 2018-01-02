@@ -21,10 +21,11 @@ def user_string(login):
     if u['id'] == '-1' or login == consts.GUEST:
         return login
     res = '''
-        <a href='http://usatu.com/forum/index.php?showuser={_id}'>{login}</a>
+        <a href='http://{OLD_SITE_PROXY}/forum/index.php?showuser={_id}'>{login}</a>
         '''.format(
             _id=u['id'],
-            login=login
+            login=login,
+            OLD_SITE_PROXY=consts.OLD_SITE_PROXY
         )
 
     return res
@@ -68,3 +69,11 @@ def get_user_by(_id, login):
     if users:
         return users[0]
     return r
+
+
+def get_user_info(params):
+    u = get_user_by(params['id'], None)
+    return {
+        'login': u['name'],
+        'avatar': get_avatar(u['avatar'])
+    }

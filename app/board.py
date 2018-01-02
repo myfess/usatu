@@ -5,7 +5,7 @@ from django.shortcuts import render
 
 from app import consts
 from app import mydb
-from app.common import get_default_context, get_records_set_json
+from app.common import get_default_context, get_records_set_json, json_dumps
 
 
 def board_theme_list():
@@ -48,10 +48,10 @@ def get_board_theme(request):
     context['PAGE_TITLE'] = 'Форум - '
 
     bread_crumbs = [
-        {'text': 'USATU.com', 'link': '/'},
+        {'text': consts.NAV_CAPTION, 'link': '/'},
         {'text': 'Форум', 'link': '/board/', 'last': True}
     ]
-    context['BREAD_CRUMBS'] = json.dumps(bread_crumbs)
+    context['BREAD_CRUMBS'] = json_dumps(bread_crumbs)
 
     return render(
         request,
@@ -77,10 +77,10 @@ def get_board_theme_comments(request, theme_id, page=1):
 
     title = db.SqlQueryScalar(sql, {'id': theme_id})
 
-    bread_crumbs = [{'text': 'USATU.com', 'link': '/'}]
+    bread_crumbs = [{'text': consts.NAV_CAPTION, 'link': '/'}]
     bread_crumbs.append({'text': 'Форум', 'link': '/board/'})
     bread_crumbs.append({'text':  title, 'last': True})
-    context['BREAD_CRUMBS'] = json.dumps(bread_crumbs)
+    context['BREAD_CRUMBS'] = json_dumps(bread_crumbs)
     context['THEME_ID'] = theme_id
     context['THEME_TITLE'] = title
     context['ADDITIONAL_PARAMS'] = '''
