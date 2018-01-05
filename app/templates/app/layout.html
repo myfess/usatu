@@ -102,9 +102,7 @@
           &nbsp;&nbsp;Powered by <a class=FessDesign href="mailto:my_fess@mail.ru">my_fess</a>
         </td>
         <td align=right>
-        {% if JIVOSITE  %}
-          {JIVOSITE}
-        {% endif %}
+          {% include "app/common/counters.html" %}
         </td>
       </tr>
     </table>

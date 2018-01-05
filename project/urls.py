@@ -5,7 +5,7 @@ Definition of urls for pyusatu.
 from django.conf.urls import url
 
 from app.api import api_navigation, sbis_api_navigation
-from app.teachers import teachers_list, get_teachers_teacher, teachers_add_edit
+from app.teachers import teachers_list, get_teachers_teacher, teachers_add_edit, chair_list
 from app.board import get_board_theme, get_board_theme_comments
 from app.message import message_navigation_board_theme
 from app.message import message_navigation_writer
@@ -37,6 +37,7 @@ urlpatterns = [
     url(r'^news/(\d+)/(\d+)/gotocomment/(\d+)/?$', full_message),
 
     url(r'^teachers/?$', teachers_list),
+    url(r'^teachers/chair/(\d+)/?$', chair_list),
     url(r'^teachers/(\d+)/?$', get_teachers_teacher),
     url(r'^teachers/(\d+)/(\d+)/?$', get_teachers_teacher),
     url(r'^teachers/(\d+)/(\d+)/gotocomment/(\d+)/?$', get_teachers_teacher),

@@ -20,13 +20,16 @@ server {
         alias /home/django/django_project/app/static;
     }
 
-
     location /static/files {
         alias /home/django/django_project/files/static/files;
     }
 
     location /static/cdn {
-        alias /home/django/django_project/cdn/static/cdn;
+        alias /home/django/django_project/sbis/static/sbis/cdn;
+    }
+
+    location /static/ws {
+        alias /home/django/django_project/sbis/static/sbis/ws;
     }
 
     location / {

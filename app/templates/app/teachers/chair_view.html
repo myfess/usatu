@@ -1,3 +1,7 @@
+{% extends "app/layout.html" %}
+
+{% block content %}
+
 <font class=NavBread>
 <a href="">{{ NAV_CAPTION }}</a> > <a href="teachers/">Преподаватели УГАТУ</a> > <b>{CHAIR_NAME}</b>
 </font>
@@ -17,30 +21,19 @@
 <table class=TableWithBookmarks bgcolor=c1c1c1 cellSpacing=0 cellPadding=0 width='100%' border=0>
   <tr>
     <td valign=top bgColor=white>
-      <table cellSpacing=0 cellPadding=15><tr><td class=PageTitle>&raquo; {CHAIR_NAME}</td></tr></table>
+      <table cellSpacing=0 cellPadding=15><tr><td class=PageTitle>&raquo; {{ CHAIR_NAME }}</td></tr></table>
       <table cellSpacing=0 cellPadding=0 width=100%>
         <tr>
           <td class=ChairTeachers>
-
-            <tpl:teachers>
-            <tpl:link_teacher>
-              <a href="teachers/{TEACHER_ID}/">{TEACHER_NAME}</A>
-
-              <tpl:new_comment_{TEACHER_ID}>
-                <font color=red><b>new</b></font>
-              </tpl:new_comment_{TEACHER_ID}>
-
-              <tpl:is_editor>
-                <a href='teachers/edit/{TEACHER_ID}'><b>Р</b></a>
-              </tpl:is_editor>
-
-              <br>
-            </tpl:link_teacher>
-
-            <br>
+            {% for t in teachers %}
+              <a href='teachers/{{ t.id }}/'>{{ t.name }}</a><br />
+            {% endfor %}
+            <br />
           </td>
         </tr>
       </table>
     </td>
   </tr>
 </table>
+
+{% endblock %}

@@ -25,7 +25,10 @@ def news_mod(request):
     news = []
     for r in rs:
         m = get_message_text(request, r)
-        m['category_path'] = get_path_ID(int(m['category']))
+        if m['category']:
+            m['category_path'] = get_path_ID(int(m['category']))
+        else:
+            m['category_path'] = '[Не выбран раздел]'
         news.append(m)
     context['news'] = news
 

@@ -49,11 +49,11 @@ TYPESCRIPT = True
 ES5 = False
 
 if PRODUCTION:
-    DOMEN = 'highload.org'
+    #DOMEN = 'highload.org'
+    DOMEN = 'usatu.com'
     CAPTCHA_ON = True
     TYPESCRIPT = False
     ES5 = True
 
 USATU_AVATAR_PATH = 'http://' + DOMEN + '/' + USATU_BINARY + '/avatars/'
-#USATU_UPLOAD_PATH = 'http://' + DOMEN + '/' + USATU_BINARY + '/uploads/'
 USATU_UPLOAD_PATH = USATU_BINARY + '/uploads/'

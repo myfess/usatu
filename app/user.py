@@ -60,7 +60,7 @@ def get_user_by(_id, login):
     return r
 
 
-def get_user_info(params):
+def get_user_info(params, request):
     u = get_user_by(params['id'], None)
     return {
         'login': u['name'],

@@ -9,8 +9,8 @@ from app import consts
 
 
 class MyDB:
-    def __init__(self):
-        self.cursor = connections['default'].cursor()
+    def __init__(self, db_name='default'):
+        self.cursor = connections[db_name].cursor()
 
     def _SqlQuery(self, sql, params, no_result=False):
         try:

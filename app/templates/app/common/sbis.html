@@ -1,5 +1,5 @@
-<link href="http://{{ OLD_SITE_PROXY }}/ws/css/core.css" type="text/css" rel=stylesheet>
-<link rel="stylesheet" data-pack-name="ws-core-styles" type="text/css" href="http://{{ OLD_SITE_PROXY }}/ws/css/themes/webfonts/fonts.css" />
+<link href="http://{{ DOMEN }}/static/ws/css/core.css" type="text/css" rel=stylesheet>
+<link rel="stylesheet" data-pack-name="ws-core-styles" type="text/css" href="http://{{ DOMEN }}/static/ws/css/themes/webfonts/fonts.css" />
 
 <script type="text/javascript">
   window.service = {
@@ -20,9 +20,8 @@
     saveLastState: '' || false,
     userConfigSupport: '' || false,
     mysbis: '{{ USATU_PATH }}/sbis/',
-    usatusbis: 'http://{{ OLD_SITE_PROXY }}/ws/',
-    //cdnRoot: 'http://{{ OLD_SITE_PROXY }}/cdn/',
-    cdnRoot: 'http://{{ DOMEN }}/static/sbis/cdn/',
+    usatusbis: 'http://{{ DOMEN }}/static/ws/',
+    cdnRoot: 'http://{{ DOMEN }}/static/cdn/',
     wsRoot: 'https://cdn.jsdelivr.net/npm/sbis-node-ws@17.200.169/lib/ws/'
   };
 </script>

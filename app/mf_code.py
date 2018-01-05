@@ -242,7 +242,7 @@ def print_smile(s):
     for sm, value in smile_array.items():
         ss = '''
             <img
-                src="{USATU_PATH}"/picture/smile/{value}"
+                src="{USATU_PATH}/picture/smile/{value}"
                 border="0"
                 alt="{sm}"
                 class="rte_smile"

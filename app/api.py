@@ -10,6 +10,7 @@ from app import message
 from app import board
 from app import edu_files
 from app import cache
+from app import user
 
 from app.common import json_dumps
 
