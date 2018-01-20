@@ -1,0 +1,20 @@
+{% extends "app/layout.html" %}
+
+{% block content %}
+
+<font class="NavBread">
+  <a href="">{{ NAV_CAPTION }}</a>&nbsp;>&nbsp;<b>{{ msg.title }}</b>
+</font>
+<br />
+<br />
+
+{% include "app/messages/message.html" %}
+
+<script>
+  System
+    .import('{{ USATU_PATH }}/app/comments/comments')
+    .catch(function (err) {console.error(err);});
+</script>
+<comments object-id="{{ msg.id }}" page-link="{{ msg.url_pageless }}"></comments>
+
+{% endblock %}

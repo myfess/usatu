@@ -1,0 +1,39 @@
+.blogMessageTextBlock {
+    padding-right: 20px;
+    padding-left: 20px;
+    padding-bottom: 5px;
+    padding-top: 5px
+}
+
+.blogMessageTextBlock .aligncenter {
+    display: block;
+    margin-bottom: 20px;
+}
+
+.core_message_success {
+    font-size: 12px;
+    font-weight: bold;
+    color: #008000;
+    background-color: #ccffcc;
+}
+
+.core_main_caption {
+    font-weight: bold;
+    color: #637388;
+    font-size: 16px;
+}
+
+.core_main_block {
+    border-collapse: collapse;
+    border: 1px solid #c1c1c1;
+    padding: 10px;
+    background-color: #ffffff;
+    margin-bottom: 10px;
+    -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+    box-sizing: border-box;
+}
+
+.core_main_font {
+    font-size: 80%;
+}

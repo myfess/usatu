@@ -20,18 +20,14 @@ def user_string(login):
     u = get_user_by(None, login)
     if u['id'] == '-1' or login == consts.GUEST:
         return login
-    res = '''
-        <a href='http://{OLD_SITE_PROXY}/forum/index.php?showuser={_id}'>{login}</a>
-        '''.format(
-            _id=u['id'],
-            login=login,
-            OLD_SITE_PROXY=consts.OLD_SITE_PROXY
-        )
-
+    res = '{login}'.format(
+        # _id=u['id'],
+        login=login
+    )
     return res
 
 
-def get_user_by(_id, login):
+def get_user_by(_id=None, login=None, email=None):
     r = {
         'id': -1,
         'name': -1,
@@ -49,6 +45,9 @@ def get_user_by(_id, login):
     elif login:
         where = 'name = @name@'
         p = {'name': login}
+    elif email:
+        where = 'email = @email@'
+        p = {'email': email}
     else:
         return r
 

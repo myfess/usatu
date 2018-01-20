@@ -8,7 +8,8 @@ from django.http import HttpRequest
 from app import consts
 from app import mydb
 from app import auth
-from app.common import get_latin_table, get_default_context, get_id
+from app.common import get_latin_table, get_id
+from app.auth import get_default_context
 
 
 def get_chairs_struct(params, request):

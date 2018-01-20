@@ -99,7 +99,6 @@ export class TeacherCardComponent implements OnInit {
     }
   }
 
-
   ngOnInit(): void {
     let tid = this._config.config().teacher_id;
 
@@ -111,18 +110,18 @@ export class TeacherCardComponent implements OnInit {
     this.buildForm();
   }
 
-  buildForm(): void {
-    this.teacherForm = this.fb.group({
-      'name': [this.name, [
-          Validators.required,
-          this.validateNameFactory()
-        ]
-      ],
-    });
+    buildForm(): void {
+        this.teacherForm = this.fb.group({
+            'name': [this.name, [
+                Validators.required,
+                this.validateNameFactory()
+                ]
+            ],
+        });
 
-    this.teacherForm.valueChanges.subscribe(data => this.onValueChanged(data));
-    this.onValueChanged(); // (re)set validation messages now
-  }
+        this.teacherForm.valueChanges.subscribe(data => this.onValueChanged(data));
+        this.onValueChanged(); // (re)set validation messages now
+    }
 
   validateNameFactory() {
     let tpl = /^[ ]*[А-Яа-яёЁa-zA-Z]+[ ]+[А-Яа-яёЁa-zA-Z]+[ ]+[А-Яа-яёЁa-zA-Z]+[ ]*$/i;

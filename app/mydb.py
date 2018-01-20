@@ -1,11 +1,9 @@
 ﻿# -*- coding: utf-8 -*-
 
-import os
-
 from django.db import connections
-from django.conf  import settings
 
 from app import consts
+from app.common import read_file
 
 
 class MyDB:
@@ -52,11 +50,6 @@ class MyDB:
             sql = sql.replace('@' + key + '@', '%(' + key + ')s')
         return self._SqlQuery(sql, params, no_result)
 
-
-    def sql(self, name):
-        _root = getattr(settings, 'BASE_DIR', os.getcwd())
-        path = os.path.join(_root, consts.SQL_PATH, name + '.sql')
-        with open(path, 'r') as myfile:
-            data = myfile.read()
-            return data
-        return ''
+    @staticmethod
+    def sql(name):
+        return read_file(consts.SQL_PATH + '/' + name + '.sql')

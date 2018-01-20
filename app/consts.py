@@ -40,7 +40,6 @@ USATU_NEWS_CATEGORY = 2
 
 CACHE_INTERVAL = '1 day'
 
-OLD_SITE_PROXY = 'usatu.com'
 NAV_CAPTION = 'USATU.com'
 
 DOMEN = 'localhost:1004'
@@ -50,6 +49,7 @@ ES5 = False
 
 if PRODUCTION:
     #DOMEN = 'highload.org'
+    REFORMAL = True
     DOMEN = 'usatu.com'
     CAPTCHA_ON = True
     TYPESCRIPT = False

@@ -1,14 +1,22 @@
 ﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <html>
   <head>
-    <title>{{ PAGE_TITLE }}Студенческий сайт УГАТУ | USATU</title>
+    {% if HIGHLOAD  %}
+      <title>HighLoad.org – блог о высоких нагрузках</title>
+    {% endif %}
+    {% if not HIGHLOAD  %}
+      <title>{{ PAGE_TITLE }}Студенческий сайт УГАТУ | USATU</title>
+    {% endif %}
+
       <meta name='yandex-verification' content='5a9ac01d77f4e0fc' />
       <base href="/">
       <meta http-equiv=Content-Type content="text/html; charset=utf-8">
       <meta name="keywords" content="УГАУТ, шпоры УГАТУ, преподы УГАТУ, USATU">
       <meta name='yandex-verification' content='5a9ac01d77f4e0fc' />
 
-      <link href="{{ USATU_PATH }}/common/style.css" type="text/css" rel=stylesheet>
+      <link href="{{ USATU_PATH }}/common/style.css" type="text/css" rel=stylesheet />
+      <link href="{{ USATU_PATH }}/common/main.css" type="text/css" rel=stylesheet />
+
       <link
         href="https://cdn.jsdelivr.net/npm/@angular/material@2.0.0-beta.7/prebuilt-themes/indigo-pink.css"
         rel="stylesheet" />
@@ -68,26 +76,54 @@
 
     </script>
 
-    {% include "app/header.html" %}
+    {% if HIGHLOAD  %}
+      {% include "app/highload/header.html" %}
+    {% endif %}
+    {% if not HIGHLOAD  %}
+      {% include "app/header.html" %}
+    {% endif %}
 
     <table bgcolor=#f2f0f1 border=0 height=100% width="100%" cellSpacing="0" cellPadding=0>
       <tr>
         <td align="center" valign="top">
-          <table style="border-spacing: 10px; width: 980px;">
-            <tr>
-              <td valign="top" style="width: 190px; background-color: #f2f0f1; padding: 0px;">
-                {% include "app/left_menu.html" %}
-              </td>
-              <td
-                valign="top"
-                style="width: 560px; height: 100%; background-color: #f2f0f1; padding: 0px;">
-                {% block content %}{% endblock %}
-              </td>
-              <td valign=top style="width: 190px; background-color: #f2f0f1; padding: 0px;">
-                {% block content_right_menu %}{% endblock %}
-              </td>
-            </tr>
-          </table>
+          {% if not HIGHLOAD  %}
+            <table style="border-spacing: 10px; width: 980px;">
+              <tr>
+                <td valign="top" style="width: 190px; background-color: #f2f0f1; padding: 0px;">
+                  {% if LEFT_MENU  %}
+                    {% include "app/left_menu.html" %}
+                  {% endif %}
+                </td>
+                <td
+                  valign="top"
+                  style="width: 560px; height: 100%; background-color: #f2f0f1; padding: 0px;">
+          {% endif %}
+
+          {% if HIGHLOAD  %}
+            <table style="border-spacing: 0px; width: 768px;">
+              <tr>
+                <td
+                  valign="top"
+                  style="width: 768px; height: 100%; background-color: #f2f0f1; padding: 0px;
+                    padding-top: 15px; padding-bottom: 15px; ">
+          {% endif %}
+
+                  {% block content %}{% endblock %}
+
+          {% if not HIGHLOAD  %}
+                </td>
+                <td valign=top style="width: 190px; background-color: #f2f0f1; padding: 0px;">
+                  {% block content_right_menu %}{% endblock %}
+                </td>
+              </tr>
+            </table>
+          {% endif %}
+
+          {% if HIGHLOAD  %}
+                </td>
+              </tr>
+            </table>
+          {% endif %}
         </td>
       </tr>
     </table>
@@ -97,22 +133,33 @@
         <td colspan=2 height="3" bgcolor="#333333"></td>
       </tr>
       <tr>
-        <td class=Copy>&nbsp;&nbsp;&copy; 2004-2018 <b>USATU</b>
-          <br>
-          &nbsp;&nbsp;Powered by <a class=FessDesign href="mailto:my_fess@mail.ru">my_fess</a>
-        </td>
+        {% if HIGHLOAD  %}
+          <td class=Copy>&nbsp;&nbsp;&copy; 2010-2018 <b>HIGHLOAD</b>
+          </td>
+        {% endif %}
+        {% if not HIGHLOAD  %}
+          <td class=Copy>&nbsp;&nbsp;&copy; 2004-2018 <b>USATU</b>
+            <br>
+            &nbsp;&nbsp;Powered by <a class=FessDesign href="mailto:my_fess@mail.ru">my_fess</a>
+          </td>
+        {% endif %}
         <td align=right>
-          {% include "app/common/counters.html" %}
+          {% if HIGHLOAD  %}
+            {% include "app/highload/counter.html" %}
+          {% endif %}
+          {% if not HIGHLOAD  %}
+            {% include "app/common/counters.html" %}
+          {% endif %}
         </td>
       </tr>
     </table>
 
     {% if JIVOSITE  %}
-      {JIVOSITE}
+      {% include "app/common/jivosite.html" %}
     {% endif %}
 
     {% if REFORMAL  %}
-      {REFORMAL}
+      {% include "app/common/reformal.html" %}
     {% endif %}
   </body>
 </html>

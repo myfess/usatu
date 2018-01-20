@@ -4,12 +4,16 @@
 
 import json
 import time
+import os
 
 from django.utils.safestring import mark_safe
+from django.conf  import settings
+from django.utils.html import strip_tags
+from django.core.mail import send_mail
 
 from app import consts
-from app import auth
 from app import mydb
+
 
 def get_latin_table():
     return {
@@ -25,36 +29,6 @@ def get_latin_table():
         'Ф': 'F', 'Х': 'KH', 'Ц': 'C', 'Ч': 'CH', 'Ш': 'SH', 'Щ': 'SHCH', 'Ъ': '',
         'Ы': 'Y', 'Ь': '', 'Э': 'EH', 'Ю': 'JU', 'Я': 'JA'
     }
-
-
-def get_default_context(request):
-    user = auth.MyUser(request)
-
-    context = {
-        'ADS': consts.ADS,
-        'COUNTERS': consts.COUNTERS,
-        'JIVOSITE': consts.JIVOSITE,
-        'REFORMAL': consts.REFORMAL,
-        'SAPE': consts.SAPE,
-        'TYPESCRIPT': consts.TYPESCRIPT,
-        'ES5': consts.ES5,
-        'USATU_PATH': consts.USATU_PATH,
-        'PRODUCTION_STR': 'true' if consts.PRODUCTION else 'false',
-        'ADDITIONAL_PARAMS': '',
-        'unentered_user': not user.is_registered(),
-        'is_editor': user.is_editor(),
-        'IS_EDITOR_STR': 'true' if user.is_editor() else 'false',
-        'CFG_CAPTCHA_ON_STR': 'true' if consts.CAPTCHA_ON else 'false',
-        'CAPTCHA_PUBLIC': consts.CAPTCHA_PUBLIC,
-        'USER_LOGIN': user.username,
-        'AVATAR': mark_safe("'{}'".format(user.avatar)) if user.avatar else 'null',
-        'USER_ID': user.user_id,
-        'COMMENT_ID': None,
-        'NAV_CAPTION': consts.NAV_CAPTION,
-        'DOMEN': consts.DOMEN,
-        'OLD_SITE_PROXY': consts.OLD_SITE_PROXY
-    }
-    return context
 
 
 def get_id():
@@ -105,3 +79,31 @@ def epoch_to_date_str(epoch):
 
 def json_dumps(d):
     return json.dumps(d, ensure_ascii=False)
+
+
+def read_file(name):
+    _root = getattr(settings, 'BASE_DIR', os.getcwd())
+    path = os.path.join(_root, name)
+    with open(path, 'r', encoding='utf-8') as myfile:
+        data = myfile.read()
+        return data
+    return ''
+
+
+def my_mail(subject, html_content, email):
+    if not email or email == -1:
+        return
+
+    if not consts.PRODUCTION:
+        return
+
+    text_content = strip_tags(html_content)
+
+    send_mail(
+        subject,
+        text_content,
+        '"{}" <root@{}>'.format(consts.NAV_CAPTION, consts.DOMEN),
+        [email],
+        fail_silently=False,
+        html_message=html_content
+    )

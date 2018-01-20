@@ -60,21 +60,13 @@ System.config({
     '@angular/animations/browser': 'https://cdn.jsdelivr.net/npm/@angular/animations@4.2.0/bundles/animations-browser.umd.min.js',
 
     '@angular': 'node_modules/@angular'
-
-    // 'app': 'usatu',
-    // 'app3/*': 'usatu/app3/*'
   },
-  // baseURL: "/usatu",
+
   paths: {
-    // 'app/*': 'usatu/app/*',
-    // 'app3/*': 'usatu/app3/*'
-    // 'node_modules/@angular/*': 'node_modules/@angular/*/bundles'
   },
 
   packages: {
 	'static': { main: 'main', defaultExtension: 'ts' },
-    // 'usatu': {main: 'main', defaultExtension: 'ts'},
-    // 'app': {main: 'main', defaultExtension: 'ts'},
     'rxjs': {main: 'Rx'},
     'jquery': {main: 'jquery.js'},
     'angular2-recaptcha': {main: 'index.js'},

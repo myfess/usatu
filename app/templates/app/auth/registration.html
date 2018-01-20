@@ -1,0 +1,13 @@
+{% extends "app/layout.html" %}
+
+{% block content %}
+
+<script>
+    System.import('{{ USATU_PATH }}/app/registration/registration')
+      .catch(function (err) {console.error(err);});
+</script>
+
+<registration></registration>
+
+
+{% endblock %}>

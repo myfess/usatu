@@ -2,7 +2,7 @@
 
 from django.shortcuts import render
 
-from app.common import get_default_context
+from app.auth import get_default_context
 
 
 def get_links(request):

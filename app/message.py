@@ -8,11 +8,13 @@ import urllib.request
 
 from django.shortcuts import render
 from django.utils.html import escape
+from django.template.loader import render_to_string
 
 from app import mydb
 from app import auth
 from app import consts
-from app.common import get_default_context, get_id, get_client_ip
+from app.common import get_id, get_client_ip, my_mail
+from app.auth import get_default_context
 from app.mf_code import mf_code
 from app.user import user_string
 
@@ -201,29 +203,23 @@ def send_notification_mail(_id):
         return
     m = rs[0]
 
-    _email = m['email']
-    if _email == -1:
+    email = m['email']
+    if not email or email == -1:
         return
 
-    return
-    # url = get_url_comment(m['old_id'])
-    # $tpl = new MyTpl("messages/mail.html");
-    # $tpl->Set("{USER_LOGIN}", user_string($m['new_author']), false);
-    # $tpl->Set("{OLD_MESSAGE}", mf_code($m['old_text']), false);
-    # $tpl->Set("{NEW_MESSAGE}", mf_code($m['new_text']), false);
-    # $tpl->Set("{URL}", $url['url']);
+    url = get_url_comment(m['old_id'])
+    tpl = render_to_string('app/email/reply.html')
+    tpl = tpl.format(
+        USER_LOGIN=m['new_author'],
+        OLD_MESSAGE=mf_code(m['old_text']),
+        NEW_MESSAGE=mf_code(m['new_text']),
+        DOMEN=consts.DOMEN,
+        NAV_CAPTION=consts.NAV_CAPTION,
+        URL=url['url']
+    )
 
-    # if _email != -1:
-    #     _subject = "Ответ на ваш комментарий..."
-        #subject = "=?utf-8?B?" + base64_encode(_subject) + "?="
-
-        # header = (
-        #     'MIME-Version: 1.0\r\n'
-        #     'Content-Type: text/html; charset="utf-8"\r\n'
-        #     'From: consts.NAV_CAPTION <notify@consts.DOMEN>\r\n'
-        # )
-        # Отправляем запрос на godaddy
-        # r = mail(_email, subject, $tpl->GetText(), header)
+    subject = 'Ответ на ваш комментарий...'
+    my_mail(subject, tpl, email)
 
 
 def get_url_comment(comment_id):
@@ -319,7 +315,7 @@ def message_navigation(request, mode, _id='null'):
     )
 
 
-def get_message_text(request, m, is_comment=False):
+def get_message_text(request, m, is_comment=False, blog=False, preview=False):
     """
         Построение ленты нвостей
         Построение новости когда её просматриваешь
@@ -327,11 +323,20 @@ def get_message_text(request, m, is_comment=False):
     db = mydb.MyDB()
     user = auth.MyUser(request)
 
-    _text = m['text'].replace('\n', '[br]')
-    _text = escape(_text)
-    _text = mf_code(_text)
+    _text = m['text']
+
+    if preview:
+        tmp = _text.split('<!--more-->')
+        _text = tmp[0]
+        m['preview'] = preview
+
+    if not blog:
+        _text = _text.replace('\n', '[br]')
+        _text = escape(_text)
+        _text = mf_code(_text)
 
     m['message_text'] = _text
+    m['blog'] = blog
     m['is_comment'] = is_comment
     if not is_comment:
         m['count_comment'] = db.SqlQueryScalar(

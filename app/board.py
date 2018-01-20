@@ -5,8 +5,8 @@ from django.shortcuts import render
 
 from app import consts
 from app import mydb
-from app.common import get_default_context, get_records_set_json, json_dumps
-
+from app.common import get_records_set_json, json_dumps
+from app.auth import get_default_context
 
 def board_theme_list():
     db = mydb.MyDB()

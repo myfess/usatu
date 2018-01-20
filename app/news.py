@@ -4,12 +4,15 @@ from django.shortcuts import render
 
 from app import consts
 from app import mydb
-from app.common import get_default_context
+from app.auth import get_default_context
 from app.message import get_message_text
 
 
 def message(request, page=1):
     """ Построение ленты """
+
+    if 'highload.org' in request.META['HTTP_HOST']:
+        return message_highload(request, page)
 
     db = mydb.MyDB()
     context = get_default_context(request)
@@ -39,6 +42,63 @@ def message(request, page=1):
     return render(
         request,
         'app/messages/messages.html',
+        context
+    )
+
+
+def message_highload(request, page=1):
+    """ Построение ленты блога """
+
+    db = mydb.MyDB()
+    context = get_default_context(request)
+
+    page = int(page)
+    start = (page - 1) * consts.COUNT_MESSAGES_PAGE
+
+    sql = '''
+        SELECT count(*)
+        FROM blog b
+        INNER JOIN message m ON (m.id = b.message_id)
+        WHERE
+            m.allow = 'yes'
+    '''
+
+    count_messages = rs = db.SqlQueryScalar(sql)
+
+    sql = '''
+        SELECT
+            b.id AS blog_post_id,
+            m.*
+        FROM blog b
+        INNER JOIN message m ON (m.id = b.message_id)
+        WHERE
+            m.allow = 'yes'
+        ORDER BY
+            attach = 'yes' DESC,
+            time DESC
+        LIMIT @count@
+        OFFSET @start@
+    '''
+
+    rs = db.SqlQuery(sql, {
+        'start': start,
+        'count': consts.COUNT_MESSAGES_PAGE
+    })
+
+    posts = []
+    for r in rs:
+        posts.append(get_message_text(request, r, is_comment=False, blog=True, preview=True))
+    context['posts'] = posts
+
+    context['PAGE_SELECT'] = create_page_select(
+        count_messages, consts.COUNT_MESSAGES_PAGE, page, 'page/')
+
+    context['HIGHLOAD'] = True
+    context['NAV_CAPTION'] = 'HighLoad.org'
+    context['LEFT_MENU'] = False
+    return render(
+        request,
+        'app/highload/posts.html',
         context
     )
 

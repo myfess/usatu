@@ -4,7 +4,7 @@ from django.shortcuts import render
 
 from app import mydb
 from app import auth
-from app.common import get_default_context
+from app.auth import get_default_context
 from app.message import get_message_text, get_url_comment
 
 

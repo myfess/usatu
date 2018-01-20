@@ -7,7 +7,8 @@ from django.shortcuts import render
 from app import mydb
 from app import auth
 from app import consts
-from app.common import get_default_context, epoch_to_date_str, get_id
+from app.common import epoch_to_date_str, get_id
+from app.auth import get_default_context
 from app.common import get_records_set_json, json_to_record, json_dumps
 
 

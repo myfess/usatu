@@ -58,12 +58,12 @@ def mf_code2(s):
 
 
 def tag_name_from_open_tag(tag):
-    tag_name = tag.split('[=]')
+    tag_name = tag.split('=')
     return tag_name[0]
 
 
 def tag_param_from_open_tag(tag):
-    tag_name = tag.split('[=]')
+    tag_name = tag.split('=')
     tag_param = ''
     for i in range(1, len(tag_name)):
         if i != 1:
@@ -109,7 +109,6 @@ def htext_handler(param):
             >
                 <b><u>{caption_close}</u></b>
             </a>
-        </span>
         <br />
     '''.format(
         tag_id_show=tag_id_show,

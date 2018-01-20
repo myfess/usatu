@@ -1,0 +1,11 @@
+.registration_table {
+    font-size: 80%;
+    width: 100%;
+}
+
+.reg_success {
+    font-size: 12px;
+    font-weight: bold;
+    color: #008000;
+    background-color: #ccffcc;
+}

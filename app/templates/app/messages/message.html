@@ -33,9 +33,15 @@
           </td>
         </tr>
         <tr>
-          <td colspan=2 class=MessageText>
+          <td colspan=2
+            {% if msg.blog %} class="blogMessageTextBlock" {% endif %}
+            {% if not msg.blog %} class="MessageText" {% endif %}
+          >
             {{ msg.message_text | safe}}
-            <br>
+            <br />
+            {% if msg.preview %}
+              <a href="post{{ msg.blog_post_id }}">Читать дальше →</a>
+            {% endif %}
           </td>
         </tr>
 
@@ -55,7 +61,12 @@
               <tr class=CommentActions>
                 {% if not msg.is_comment %}
                   <td valign=middle>
-                    <a href="{{ msg.message_category }}/{{ msg.message_id }}/">
+                    {% if msg.preview %}
+                      <a href="post{{ msg.blog_post_id }}">
+                    {% endif %}
+                    {% if not msg.preview %}
+                      <a href="{{ msg.message_category }}/{{ msg.message_id }}/">
+                    {% endif %}
                       комментарии&nbsp;[{{ msg.count_comment }}]
                     </a>
                   </td>

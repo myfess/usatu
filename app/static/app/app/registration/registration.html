@@ -1,0 +1,100 @@
+<div class="core_main_block">
+  <span class="core_main_caption">&raquo; Регистрация</span>
+  <br />
+  <br />
+  <font class="reg_success" *ngIf="!show_form">{{success_top_msg}}</font>
+  <table class="registration_table" *ngIf="show_form">
+    <form [formGroup]="regForm" style="margin-bottom: 0px">
+      <tr valign=middle>
+        <td style="vertical-align: top;">Логин: </td>
+        <td>
+          <input
+            class="border teacher-card_input" type="text"
+            id="login" formControlName="login" [(ngModel)]="login" />
+
+          <div
+            *ngIf="formErrors.login"
+            class="errorMessage"
+            style="font-size: 12px; margin-top: 5px">
+              {{ formErrors.login }}
+          </div>
+        </td>
+      </tr>
+
+      <tr valign=middle>
+          <td style="vertical-align: top;">Email: </td>
+          <td>
+            <input
+              class="border teacher-card_input" type="text"
+              id="email" formControlName="email" [(ngModel)]="email" email />
+            <div
+              *ngIf="formErrors.email"
+              class="errorMessage"
+              style="font-size: 12px; margin-top: 5px">
+                {{ formErrors.email }}
+            </div>
+          </td>
+        </tr>
+
+      <ng-container [formGroup]="regForm.controls.matchingPassword">
+
+      <tr valign=middle>
+        <td style="vertical-align: top;">Пароль: </td>
+        <td>
+          <input
+            class="border teacher-card_input"
+            type="password"
+            id="password" formControlName="password" [(ngModel)]="password" />
+
+          <div *ngIf="formErrors['matchingPassword/password']"
+            class="errorMessage"
+            style="font-size: 12px; margin-top: 5px">
+              {{ formErrors['matchingPassword/password'] }}
+          </div>
+        </td>
+      </tr>
+      <tr valign=middle>
+        <td style="vertical-align: top;">Повторите пароль: </td>
+        <td>
+          <input
+            class="border teacher-card_input"
+            type="password"
+            id="password2" formControlName="password2" [(ngModel)]="password2" />
+
+          <div
+            *ngIf="formErrors.password2"
+            class="errorMessage"
+            style="font-size: 12px; margin-top: 5px">
+              {{ formErrors.password2 }}
+          </div>
+
+          <div
+            *ngIf="formErrors.matchingPassword"
+            class="errorMessage"
+            style="font-size: 12px; margin-top: 5px">
+              {{ formErrors.matchingPassword }}
+          </div>
+        </td>
+      </tr>
+
+      </ng-container>
+
+      <tr valign=middle align=center>
+        <td colspan=2>
+          <font class="errorMessage" style="font-size: 12px"
+            *ngIf="error_msg!=null">{{error_msg}}</font>
+
+          <br/>
+          <button *ngIf="!loading" (click)="registration()" md-raised-button
+            [disabled]="!regForm.valid"
+            >Зарегистрироваться</button>
+          <md-progress-spinner *ngIf="loading" [mode]="'indeterminate'"
+            style="width: 36px; height: 36px;">
+          </md-progress-spinner>
+
+        </td>
+      </tr>
+
+    </form>
+  </table>
+</div>

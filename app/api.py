@@ -31,6 +31,10 @@ allowed_api_functions = {
     'delete_teacher': 'teachers',
     'release_teacher': 'teachers',
     'get_user_info': 'user',
+
+    'registraion': 'auth',
+    'restore_change_pass': 'auth',
+    'restore_pass': 'auth'
 }
 
 

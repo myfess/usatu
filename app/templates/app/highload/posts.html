@@ -1,0 +1,8 @@
+{% extends "app/layout.html" %}
+
+{% block content %}
+  {% for msg in posts %}
+    {% include "app/messages/message.html" %}
+  {% endfor %}
+  {{ PAGE_SELECT | safe }}
+{% endblock %}
