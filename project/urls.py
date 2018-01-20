@@ -4,6 +4,7 @@ Definition of urls for pyusatu.
 
 from django.conf.urls import url
 
+from app.auth import get_registration, get_restore_password
 from app.api import api_navigation, sbis_api_navigation
 from app.teachers import teachers_list, get_teachers_teacher, teachers_add_edit, chair_list
 from app.board import get_board_theme, get_board_theme_comments
@@ -13,7 +14,8 @@ from app.message import message_navigation_comment
 from app.message import full_message
 from app.edu_files import get_files_for_edu_main, get_files_for_edu_add_file
 from app.static import get_links, get_inf, get_agreement
-from app.news import message
+from app.news import message, message_highload
+from app.blog import blog_post
 from app.moderation import news_mod, teachers_mod, comments_mod
 
 
@@ -27,11 +29,18 @@ urlpatterns = [
     url(r'^mod/teachers/?$', teachers_mod),
     url(r'^mod/comments/?$', comments_mod),
 
+    url(r'^registration/?$', get_registration),
+    url(r'^restore_password/?$', get_restore_password),
+    url(r'^restore_password/(.+)/?$', get_restore_password),
+
+    url(r'^post(\d+)/?$', blog_post),
+
     url(r'^writer/?$', message_navigation_writer),
     url(r'^writer/(\d+)/?$', message_navigation_writer),
     url(r'^comment/(\d+)/?$', message_navigation_comment),
     url(r'^news/?$', message),
     url(r'^news/all/(\d+)/?$', message),
+    url(r'^page/(\d+)/?$', message_highload),
     url(r'^news/(\d+)/?$', full_message),
     url(r'^news/(\d+)/(\d+)/?$', full_message),
     url(r'^news/(\d+)/(\d+)/gotocomment/(\d+)/?$', full_message),

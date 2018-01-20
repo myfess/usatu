@@ -1,10 +1,12 @@
 """
+    Django settings
 """
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 import posixpath
 from secret import config
+from app import consts
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -95,8 +97,16 @@ ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
     '159.89.25.97',
-    'usatu.com',
+    consts.DOMEN,
     'highload.org'
 ]
 
 STATIC_ROOT = posixpath.join(*(BASE_DIR.split(os.path.sep) + ['static']))
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'localhost'
+EMAIL_PORT = 25
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
+EMAIL_USE_TLS = False
+DEFAULT_FROM_EMAIL = 'USATU <root@{}>'.format(consts.DOMEN)

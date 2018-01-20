@@ -24,6 +24,14 @@ server {
         alias /home/django/django_project/files/static/files;
     }
 
+    location /newspics {
+        alias /home/django/django_project/files/static/files/newspics;
+    }
+
+    location /wp-content/uploads {
+        alias /home/django/django_project/files/static/files/highload;
+    }
+
     location /static/cdn {
         alias /home/django/django_project/sbis/static/sbis/cdn;
     }
