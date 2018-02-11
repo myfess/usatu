@@ -17,7 +17,7 @@ from app.static import get_links, get_inf, get_agreement
 from app.news import message, message_highload
 from app.blog import blog_post
 from app.moderation import news_mod, teachers_mod, comments_mod
-
+from app.rss import get_blog_rss
 
 urlpatterns = [
     url(r'^$', message),
@@ -34,6 +34,7 @@ urlpatterns = [
     url(r'^restore_password/(.+)/?$', get_restore_password),
 
     url(r'^post(\d+)/?$', blog_post),
+    url(r'^highload/rss/?$', get_blog_rss),
 
     url(r'^writer/?$', message_navigation_writer),
     url(r'^writer/(\d+)/?$', message_navigation_writer),

@@ -1,11 +1,8 @@
 # -*- coding: utf-8 -*-
-import json
 
 from django.shortcuts import render
 
-from app import consts
 from app import mydb
-from app.common import get_records_set_json, json_dumps
 from app.auth import get_default_context
 from app.message import get_message_text
 
@@ -14,14 +11,7 @@ def blog_post(request, post_id, page=1, gotocomment=None):
     db = mydb.MyDB()
     context = get_default_context(request)
 
-    sql = '''
-        SELECT message_id
-        FROM blog
-        WHERE id = @id@
-    '''
-
-    mid = db.SqlQueryScalar(sql, {'id': post_id})
-
+    mid = db.SqlQueryScalar(db.sql('blog_post'), {'id': post_id})
     rs = db.SqlQuery(db.sql('message_full'), {'mid': mid})
 
     if len(rs) != 1:

@@ -18,3 +18,8 @@
 .rte_smile {
   vertical-align: middle;
 }
+
+.rte_preview_div {
+    margin-top: 10px;
+    font-size: 12.5px;
+}

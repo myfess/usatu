@@ -26,6 +26,12 @@ def safe_msg_text(t):
 
 
 def get_message_preview(params, request):
+    if params['blog_post']:
+        _text = params['text']
+        _text = _text.replace('[br]', '\n')
+        #_text = _text.replace('\n', '<br />')
+        _text = sql_processing(_text)
+        return {'preview': _text}
     return {'preview': safe_msg_text(params['text'])}
 
 
@@ -58,6 +64,7 @@ def write_message(params, request):
         params['text'],
         params['title'],
         params['attach'],
+        params['draft'],
         params['board_theme']
     )
     return {'result': True}
@@ -86,6 +93,7 @@ def get_message(params, request):
     m['is_comment'] = m['id_parent'] is not None and m['id_parent'] != 0
     m['is_news'] = not m['is_comment']
     m['is_board_theme'] = False
+    m['is_blog_post'] = m['is_blog_post']
     return m
 
 
@@ -130,7 +138,8 @@ def full_message(request, mid=None, page=1, gotocomment=None):
 
 
 def message_write(
-        request, message_id, captcha, id_parent, text, title='', attach=False, board_theme=False):
+        request, message_id, captcha, id_parent, text, title='',
+        attach=False, draft=False, board_theme=False):
     db = mydb.MyDB()
     user = auth.MyUser(request)
 
@@ -143,13 +152,15 @@ def message_write(
     text = text.replace('\n', '[br]')
     text = text.replace('\r', '')
     attach_str = 'yes' if attach else 'no'
+    draft = bool(draft)
 
     if message_id:
         db.SqlQuery(db.sql('message_update'), {
             'id': message_id,
             'text': text,
             'title': title,
-            'attach': attach_str
+            'attach': attach_str,
+            'draft': draft
         }, True)
 
         if board_theme:
@@ -183,6 +194,7 @@ def message_write(
             'category': (consts.USATU_NEWS_CATEGORY if id_parent is None else None),
             'allow': ('yes' if user.is_editor() else 'no'),
             'attach': attach_str,
+            'draft': draft,
             'ip': get_client_ip(request)
         }, True)
 
@@ -229,24 +241,22 @@ def get_url_comment(comment_id):
     if p_id == -1:
         return -1
 
-    _time = db.SqlQueryScalar('SELECT "time" FROM message WHERE id = @id@', {'id': comment_id})
-    news = db.SqlQuery('SELECT * FROM message WHERE id = @id@', {'id': p_id})
-    photos = db.SqlQuery('SELECT * FROM foto WHERE id = @id@', {'id': p_id})
-    teachers = db.SqlQuery('SELECT * FROM teachers WHERE id = @id@', {'id': p_id})
-
-    comments = db.SqlQuery(db.sql('message_comments_before'), {'p_id': p_id, 'time': _time})
-    page = int(len(comments) // consts.COUNT_COMMENTS_PAGE) + 1
+    parent = db.SqlQueryRecord(
+        db.sql('message_comments_parent'),
+        {'pid': p_id, 'cid': comment_id}
+    )
+    page = int(parent['_count'] // consts.COUNT_COMMENTS_PAGE) + 1
 
     r = {'type': '', 'url': ''}
-    if news:
+    if parent['news']:
         r['type'] = 'news'
         r['url'] = 'news/{}/{}/gotocomment/{}/'.format(p_id, page, comment_id)
-    elif teachers:
+    elif parent['teachers']:
         r['type'] = 'teacher'
         r['url'] = 'teachers/{}/{}/gotocomment/{}/'.format(p_id, page, comment_id)
 
-    if photos:
-        u_id = photos[0]['user_id']
+    if parent['photos_user_id']:
+        u_id = parent['photos_user_id']
         user_photos = db.SqlQueryScalar(
             db.sql('message_photos_before'),
             {'user_id': u_id, 'id': p_id}
@@ -291,13 +301,24 @@ def message_navigation(request, mode, _id='null'):
     """ Рендер расширенной формы: написать комментарий, новость, тему на форуме """
 
     context = get_default_context(request)
+    db = mydb.MyDB()
+
+    sql = '''
+        SELECT count(*) > 0
+        FROM blog
+        WHERE message_id = @mid@
+    '''
 
     message_id = 'null'
     parent_id = 'null'
     board_theme = 'false' # Если true - новое тема на форуме
+    blog_post = 'false'
 
     if mode == 'writer':
         message_id = _id
+        if message_id != 'null':
+            if db.SqlQueryScalar(sql, {'mid': int(message_id)}):
+                blog_post = 'true'
     elif mode == 'comment':
         parent_id = _id
     elif mode == 'board_theme':
@@ -307,6 +328,12 @@ def message_navigation(request, mode, _id='null'):
     context['MESSAGE_ID'] = message_id
     context['PARENT_ID'] = parent_id
     context['BOARD_THEME'] = board_theme
+    context['BLOG_POST'] = blog_post
+    context['LEFT_MENU'] = False
+    context['LEFT_WIDTH'] = 0
+    context['RIGHT_WIDTH'] = 0
+    context['WHOLE_WIDTH'] = '100%'
+    context['MIDDLE_WIDTH'] = '100%'
 
     return render(
         request,
@@ -315,15 +342,46 @@ def message_navigation(request, mode, _id='null'):
     )
 
 
+def sql_processing(text):
+    import re
+
+    def replacer(str_match):
+        s0 = str_match.group(1)
+        words = [
+            'SELECT', 'WITH', 'FROM', 'UNNEST', 'ARRAY', ' AS ', 'random', 'round',
+            'CREATE INDEX', ' ON ', 'USING', 'btree', 'CREATE TABLE', ' NOT ', 'NULL', 'integer',
+            'generate_series', 'count', 'WHERE', 'AND', 'unnest', 'sum', 'INSERT', 'INTO', 'serial',
+            'ANY', 'from', 'DISTINCT', 'ORDER BY', 'DESC', 'ASC', 'timestamp without time zone',
+            'TIMESTAMP', 'LEFT JOIN', 'LATERAL', 'LIMIT', 'EXTRACT', 'DAY', 'MAX', 'GROUP BY'
+        ]
+        for w in words:
+            s0 = s0.replace(w, '<span class="core_sql_reserved_word">{}</span>'.format(w))
+        s0 = s0.replace('\r', '')
+        s1 = s0.split('\n')
+        s2 = ['''<span>{}</span>'''.format(ss) for ss in s1]
+        s3 = '<br />'.join(s2)
+        res = '''<div class="core_sql_block">{}</div>'''.format(s3)
+        return res
+
+    text = re.sub(
+        r'<pre lang="sql">([\s\S]*?)</pre>',
+        replacer, text, flags=(re.IGNORECASE | re.MULTILINE | re.UNICODE)
+    )
+    return text
+
+
 def get_message_text(request, m, is_comment=False, blog=False, preview=False):
     """
         Построение ленты нвостей
         Построение новости когда её просматриваешь
     """
     db = mydb.MyDB()
-    user = auth.MyUser(request)
 
     _text = m['text']
+
+    if blog:
+        _text = _text.replace('[br]', '\n')
+        #_text = _text.replace('\n', '<br />')
 
     if preview:
         tmp = _text.split('<!--more-->')
@@ -334,6 +392,10 @@ def get_message_text(request, m, is_comment=False, blog=False, preview=False):
         _text = _text.replace('\n', '[br]')
         _text = escape(_text)
         _text = mf_code(_text)
+
+    if blog:
+        _text = sql_processing(_text)
+
 
     m['message_text'] = _text
     m['blog'] = blog

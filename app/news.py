@@ -3,6 +3,7 @@
 from django.shortcuts import render
 
 from app import consts
+from app import auth
 from app import mydb
 from app.auth import get_default_context
 from app.message import get_message_text
@@ -51,38 +52,20 @@ def message_highload(request, page=1):
 
     db = mydb.MyDB()
     context = get_default_context(request)
+    user = auth.MyUser(request)
 
     page = int(page)
     start = (page - 1) * consts.COUNT_MESSAGES_PAGE
 
-    sql = '''
-        SELECT count(*)
-        FROM blog b
-        INNER JOIN message m ON (m.id = b.message_id)
-        WHERE
-            m.allow = 'yes'
-    '''
+    count_messages = rs = db.SqlQueryScalar(
+        db.sql('blog_posts_count'),
+        {'username': user.username}
+    )
 
-    count_messages = rs = db.SqlQueryScalar(sql)
-
-    sql = '''
-        SELECT
-            b.id AS blog_post_id,
-            m.*
-        FROM blog b
-        INNER JOIN message m ON (m.id = b.message_id)
-        WHERE
-            m.allow = 'yes'
-        ORDER BY
-            attach = 'yes' DESC,
-            time DESC
-        LIMIT @count@
-        OFFSET @start@
-    '''
-
-    rs = db.SqlQuery(sql, {
+    rs = db.SqlQuery(db.sql('blog_posts'), {
         'start': start,
-        'count': consts.COUNT_MESSAGES_PAGE
+        'count': consts.COUNT_MESSAGES_PAGE,
+        'username': user.username
     })
 
     posts = []

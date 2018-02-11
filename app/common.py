@@ -6,7 +6,6 @@ import json
 import time
 import os
 
-from django.utils.safestring import mark_safe
 from django.conf  import settings
 from django.utils.html import strip_tags
 from django.core.mail import send_mail

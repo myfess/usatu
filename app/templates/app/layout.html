@@ -87,16 +87,16 @@
       <tr>
         <td align="center" valign="top">
           {% if not HIGHLOAD  %}
-            <table style="border-spacing: 10px; width: 980px;">
+            <table style="border-spacing: 10px; width: {{ WHOLE_WIDTH }};">
               <tr>
-                <td valign="top" style="width: 190px; background-color: #f2f0f1; padding: 0px;">
+                <td valign="top" style="width: {{ RIGHT_WIDTH }}px; background-color: #f2f0f1; padding: 0px;">
                   {% if LEFT_MENU  %}
                     {% include "app/left_menu.html" %}
                   {% endif %}
                 </td>
                 <td
                   valign="top"
-                  style="width: 560px; height: 100%; background-color: #f2f0f1; padding: 0px;">
+                  style="width: {{ MIDDLE_WIDTH }}; height: 100%; background-color: #f2f0f1; padding: 0px;">
           {% endif %}
 
           {% if HIGHLOAD  %}
@@ -112,7 +112,7 @@
 
           {% if not HIGHLOAD  %}
                 </td>
-                <td valign=top style="width: 190px; background-color: #f2f0f1; padding: 0px;">
+                <td valign=top style="width: {{ LEFT_WIDTH }}px; background-color: #f2f0f1; padding: 0px;">
                   {% block content_right_menu %}{% endblock %}
                 </td>
               </tr>
@@ -154,11 +154,11 @@
       </tr>
     </table>
 
-    {% if JIVOSITE  %}
+    {% if not HIGHLOAD and JIVOSITE  %}
       {% include "app/common/jivosite.html" %}
     {% endif %}
 
-    {% if REFORMAL  %}
+    {% if not HIGHLOAD and REFORMAL  %}
       {% include "app/common/reformal.html" %}
     {% endif %}
   </body>

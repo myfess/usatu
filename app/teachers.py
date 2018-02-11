@@ -69,30 +69,13 @@ def chair_list(request, chair_id):
     db = mydb.MyDB()
     context = get_default_context(request)
 
-    sql = '''
-        SELECT *
-        FROM chairs
-        WHERE id = @id@
-    '''
-
-    chair = db.SqlQuery(sql, {'id': chair_id})
-
+    chair = db.SqlQuery(db.sql('teachers_chair_read'), {'id': chair_id})
     if not chair:
         raise Exception('Такой кафедры не существеует')
 
     context['CHAIR_NAME'] = chair[0]['name']
 
-    sql = '''
-        SELECT
-            id, name
-        FROM teachers
-        WHERE
-            allow = 'yes'
-            AND id_chair = @chair_id@
-        ORDER BY name
-    '''
-
-    rs = db.SqlQuery(sql, {'chair_id': chair_id})
+    rs = db.SqlQuery(db.sql('teachers_chair_list'), {'chair_id': chair_id})
     context['teachers'] = rs
 
     return render(

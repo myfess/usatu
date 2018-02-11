@@ -28,12 +28,15 @@ export class RichTextEditorComponent {
     'text': '',
     'title': '',
     'attach': false,
+    'draft': false,
     'is_news': true,
     'is_board_theme': false,
-    'is_comment': false
+    'is_comment': false,
+    'is_blog_post': false
   };
 
   loading:boolean = false;
+  rowsCount:number = 20;
   preview_text = '';
   modelChanged: Subject<string> = new Subject<string>();
   g_recaptcha_response = null;
@@ -46,6 +49,11 @@ export class RichTextEditorComponent {
     this.getInputAttribute('message-id', 'id');
     this.getInputAttribute('parent-id', 'id_parent');
     this.getInputAttribute('board-theme', 'is_board_theme');
+    this.getInputAttribute('blog-post', 'is_blog_post');
+
+    if (this.message.is_blog_post) {
+        this.rowsCount = 42;
+    }
 
     this.message.is_comment = (this.message.id_parent !== null && this.message.id_parent != 0);
     this.message.is_news = !this.message.is_comment;
@@ -108,11 +116,14 @@ export class RichTextEditorComponent {
     this.modelChanged.next(input_text);
   }
 */
-  updatePreview(input_text) {
-    return this.rpcService.call('get_message_preview',
-      { 'text': input_text })
-      .then(res => this.handlerPreview(res));
-  }
+    updatePreview(input_text) {
+        return this.rpcService.call('get_message_preview',
+        {
+            'text': input_text,
+            'blog_post': this.message.is_blog_post
+        })
+        .then(res => this.handlerPreview(res));
+    }
 
   deleteMessage() {
     let _msg = 'Вы уверены, что хотите удалить это сообщение';
@@ -162,6 +173,7 @@ export class RichTextEditorComponent {
         'title': this.message.title,
         'text': this.message.text,
         'attach': this.message['attach'],
+        'draft': this.message['draft'],
         'g-recaptcha-response': this.g_recaptcha_response
       })
       .then(res => this.handlerWrite(res));

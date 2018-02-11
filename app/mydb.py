@@ -31,6 +31,13 @@ class MyDB:
             raise e
 
 
+    def SqlQueryRecord(self, sql, params=None, no_result=False):
+        rs = self.SqlQuery(sql, params, no_result)
+        if len(rs) != 1:
+            raise Exception('SqlQueryScalar: Количество строк не может быть: {}'.format(len(rs)))
+        return rs[0]
+
+
     def SqlQueryScalar(self, sql, params=None, no_result=False):
         rs = self.SqlQuery(sql, params, no_result)
         if len(rs) != 1:

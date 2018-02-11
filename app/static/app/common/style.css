@@ -93,7 +93,27 @@ TD.cap2 {font-weight: bold; COLOR: #637388; FONT-SIZE: 80%; PADDING-RIGHT: 0px; 
 TD.TdHeader {FONT-SIZE: 75%}
 TD.HeaderHello {COLOR: #FFFFFF; FONT-SIZE: 75%}
 TD.HeaderHello a {COLOR: #FFFFFF}
-TD.MessageSubject {FONT-SIZE: 80%; PADDING-RIGHT: 10px; PADDING-LEFT: 10px; PADDING-BOTTOM: 0px; PADDING-TOP: 5px}
+
+.message_header_icon {
+    border: 0px;
+    height: 20px;
+    vertical-align: top;
+    position: relative;
+    top: -2px;
+}
+
+.message_header_title {
+    font-weight: bold;
+}
+
+TD.MessageSubject {
+    FONT-SIZE: 80%;
+    PADDING-RIGHT: 10px;
+    PADDING-LEFT: 10px;
+    PADDING-BOTTOM: 0px;
+    PADDING-TOP: 5px;
+}
+
 TD.MessageText {FONT-SIZE: 75%; PADDING-RIGHT: 10px; PADDING-LEFT: 10px; PADDING-BOTTOM: 5px; PADDING-TOP: 5px}
 TD.FormRegistration {FONT-SIZE: 80%}
 TD.PageTitle {FONT-WEIGHT: bold; COLOR: #637388; FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif}

@@ -7,13 +7,19 @@
           <td align=left class=MessageSubject>
             {% if msg.stick %}
               <img
-                src='{{ USATU_PATH }}/picture/design/stick.gif'
-                border=0
-                width="11"
-                height="12"
-                alt='Новость прикреплена'>&nbsp;
+                src='{{ USATU_PATH }}/picture/stick.png'
+                class="message_header_icon"
+                alt='Закреплено' />&nbsp;
             {% endif %}
-            <b>{{ msg.title }}</b>
+
+            {% if msg.draft %}
+              <img
+                src='{{ USATU_PATH }}/picture/draft.png'
+                class="message_header_icon"
+                alt='Черновик' />
+            {% endif %}
+
+            <span class="message_header_title">{{ msg.title }}</span>
             <br />
           </td>
           <td align=right class=MessageSubject>

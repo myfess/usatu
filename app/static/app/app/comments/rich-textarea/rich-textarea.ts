@@ -13,6 +13,7 @@ export class RichTextAreaComponent {
   @ViewChild("textareamain") _textarea: ElementRef;
   @Input('disabled') _disabled:boolean = true;
   @Input('messageText') message_text: string;
+  @Input('rowsCount') rowsCount: number;
   @Output() messageTextChange: EventEmitter<string> = new EventEmitter<string>();
 
   constructor() {

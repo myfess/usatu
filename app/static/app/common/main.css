@@ -1,8 +1,18 @@
 .blogMessageTextBlock {
+    font-size: 12.5px;
     padding-right: 20px;
     padding-left: 20px;
     padding-bottom: 5px;
     padding-top: 5px
+}
+
+.blogMessageTextBlock table {
+    font-size: 12.5px;
+}
+
+.rte_preview_div .aligncenter {
+    display: block;
+    margin-bottom: 20px;
 }
 
 .blogMessageTextBlock .aligncenter {
@@ -36,4 +46,28 @@
 
 .core_main_font {
     font-size: 80%;
+}
+
+.core_sql_block {
+    background-color: #f5f5f5;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px;
+    padding-left: 30px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-family: Consolas, "Courier New";
+}
+
+.rte_preview_div table {
+    font-size: 12.5px !important;
+}
+
+.core_sql_block span {
+    white-space: pre;
+    color: #303336;
+}
+
+.core_sql_reserved_word {
+    color: #101094 !important;
 }

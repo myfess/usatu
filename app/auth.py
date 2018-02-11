@@ -8,6 +8,7 @@ from email.utils import parseaddr
 
 from django.template.loader import render_to_string
 from django.shortcuts import render
+from django.utils.safestring import mark_safe
 
 from app import consts
 from app import mydb
@@ -107,12 +108,6 @@ def restore_pass(params, request):
         Заявка на восстановлние пароля
     """
 
-    sql = '''
-        INSERT
-        INTO members_restore_pass (member_id, secret, dt)
-        VALUES (@member_id@, @secret@, NOW() at time zone 'UTC')
-    '''
-
     secret = uuid.uuid4()
     user = get_user_by(email=params['email'])
     member_id = user['id']
@@ -121,7 +116,11 @@ def restore_pass(params, request):
         return {'msg': 'Email не найден'}
 
     db = mydb.MyDB()
-    db.SqlQuery(sql, {'member_id': member_id, 'secret': secret}, True)
+    db.SqlQuery(
+        db.sql('auth_restore'),
+        {'member_id': member_id, 'secret': secret},
+        True
+    )
 
     email = user['email']
     if not email or email == -1:
@@ -153,29 +152,13 @@ def restore_change_pass(params, request):
         return {'msg': 'Пароль не может быть короче 4 символов.'}
     new_pass = md5(new_pass)
 
-    sql = '''
-        SELECT member_id
-        FROM members_restore_pass
-        WHERE
-            secret = @secret@
-            AND (NOW() at time zone 'UTC' - dt) < interval '1 day'
-    '''
 
-    rs = db.SqlQuery(sql, {'secret': secret})
-
+    rs = db.SqlQuery(db.sql('auth_secret_check'), {'secret': secret})
     if not rs:
         return {'msg': 'Неверная ссылка для восстановления, возможно она устарела, получите новую.'}
 
     mid = rs[0]['member_id']
-
-    sql = '''
-        UPDATE members
-        SET password = @password@
-        WHERE id = @mid@
-        RETURNING id, name, email
-    '''
-
-    rs = db.SqlQuery(sql, {'mid': mid, 'password': new_pass})
+    rs = db.SqlQuery(db.sql('auth_change_pass'), {'mid': mid, 'password': new_pass})
 
     if not rs:
         raise Exception('Не удалось сменить пароль')
@@ -247,37 +230,15 @@ def registraion(params, request):
         )
         return {'msg': msg}
 
-    sql = '''
-        SELECT count(*)
-        FROM members
-        WHERE email = @email@
-    '''
-
-    email_count = db.SqlQueryScalar(sql, {'email': email})
+    email_count = db.SqlQueryScalar(db.sql('auth_check_email'), {'email': email})
     if email_count:
         return {'msg': 'Пользователь с указанным email-ом уже зарегистрирован.'}
 
-    sql = '''
-        SELECT count(*)
-        FROM members
-        WHERE name = @login@
-    '''
-
-    login_count = db.SqlQueryScalar(sql, {'login': login})
+    login_count = db.SqlQueryScalar(db.sql('auth_name_check'), {'login': login})
     if login_count:
         return {'msg': 'Пользователь с указанным именем уже зарегистрирован.'}
 
-    sql = '''
-        INSERT
-        INTO members (id, name, password, email)
-        VALUES (
-            (SELECT max(m.id) + 1 FROM members m),
-            @name@, @password@, @email@
-        )
-        RETURNING id, name, email
-    '''
-
-    rs = db.SqlQuery(sql, {
+    rs = db.SqlQuery(db.sql('auth_registraion'), {
         'name': login,
         'password': new_pass,
         'email': email,
@@ -363,6 +324,10 @@ def get_default_context(request):
         'NAV_CAPTION': consts.NAV_CAPTION,
         'DOMEN': consts.DOMEN,
         'LEFT_MENU': True,
-        'HIGHLOAD': False
+        'HIGHLOAD': False,
+        'LEFT_WIDTH': 190,
+        'RIGHT_WIDTH': 190,
+        'WHOLE_WIDTH': '980px',
+        'MIDDLE_WIDTH': '560px'
     }
     return context
